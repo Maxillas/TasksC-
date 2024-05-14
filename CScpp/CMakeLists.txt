@@ -1,11 +1,18 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(untitled2 LANGUAGES CXX)
+project(CScpp LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(untitled2 main.cpp)
+add_executable(CScpp main.cpp task1_2_4.cpp task1_2_10.cpp)
 
-install(TARGETS untitled2
+install(TARGETS CScpp
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+set(SOURCES
+    task1_2_4.cpp
+    task1_2_10.cpp
+    main.cpp
+
+)
