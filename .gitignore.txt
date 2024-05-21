@@ -1,5 +1,2 @@
-.idea
-*/.idea
-BinarySimpleTree/.idea
-CMakeLists.txt.user
-build/*
+*/build[]/
+CScpp/
