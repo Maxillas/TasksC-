@@ -11,6 +11,7 @@ std::pair<double, char const *> p = to_pair<1,2>(t);
 #include <iostream>
 #include <functional>
 #include <tuple>
+#include <utility>
 
 template<int firstIndex, int secondIndex, typename... Tup>
 auto to_pair(std::tuple<Tup...> tpl)->decltype(std::make_pair(std::get<firstIndex>(tpl), std::get<secondIndex>(tpl))) {
@@ -130,8 +131,26 @@ int m[10] = {0,0,1,1,4,6,7,8,9,10};
 int * first_prime = find_if(m, m + 10, gen_finder(primes, primes + 5));
 
 
+/*
 
+Напишите функцию apply, которая принимает некоторую функцию / функциональный объект, а так же аргументы для вызова этого объекта, и вызывает его, используя perfect forwarding.
 
+Пример:
 
+auto fun = [](std::string a, std::string const& b) { return a += b; };
 
+std::string s("world!");
 
+// s передаётся по lvalue ссылке,
+// а временный объект по rvalue ссылке
+s = apply(fun, std::string("Hello, "), s);
+
+Примечание: гарантируется, что количество аргументов, переданных в apply, совпадает с количеством аргументов у функции/функционального объекта. При этом у функции может быть произвольное число аргументов.
+
+Hint: ﻿в данном задании нужно использовать новый синтаксис определения функций.
+*/
+
+template<typename T, typename ...Args>
+auto apply(T foo, Args&&... args) -> decltype(foo(std::forward<Args>(args)...)) {
+    return foo(std::forward<Args>(args)...);
+}
