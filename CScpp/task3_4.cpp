@@ -45,13 +45,14 @@ public:
             return *m_VectorIt;
         };
 
-        const_iterator operator ++ (int) const {
+        const_iterator operator ++ (int)  {
             //const_iterator newIt();
 
             typename VectT::const_iterator new_VectorIt = m_VectorIt;
             typename ListT::const_iterator new_ListIt = m_ListIt;
             const_iterator output_It;
-
+            ++m_VectorIt;
+        // каждый раз создает новый объект и поэтому бесконечный цикл
             new_VectorIt++;
             if (new_VectorIt == (*m_ListIt).end()) { // если это был последний элемент в векторе
                 new_ListIt++; // переход на следующий вектор в списке
