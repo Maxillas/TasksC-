@@ -3,6 +3,7 @@
 #include "task2_1.cpp"
 #include "task3_2.cpp"
 #include "task3_3.cpp"
+#include "task3_4.cpp"
 
 #include <iostream>
 #include <cstdint>
@@ -480,6 +481,44 @@ int main() {
     std::cout << "Is it has to be like this: " << test_multimethod_comm_first_triangle_second_rectangleAND_first_rectangle_second_triangle() << std::endl << std::endl;
 
     std::cout << "ended" << std::endl;
+
+    std::cout << "_________________________________" << std::endl;
+
+
+    VectorList<int> vlist;
+    std::vector<int> v1 = {1,2,3};
+    std::vector<int> v2 = {4,5,6,7};
+
+    vlist.append(v1.begin(), v1.end());
+    vlist.append(v2.begin(), v2.end());
+
+    // vlist.begin() - указывает на первый элемент первого вектора, т.е. на цифру '1'
+    // --vlist.end() - указывает на последний элемент последнего вектора, т.е. на цифру '7'
+    // vlist.size() - вернет 7
+    std::cout << "size = " << vlist.size() << std::endl;
+    auto a = vlist.begin();
+    std::cout << "first element = " << *a << std::endl;
+    auto b = vlist.end();
+    std::cout << "last element = " << *b << std::endl;
+
+    //auto c = vlist.rbegin();
+    //std::cout << "first revers element = " << *c << std::endl;
+    //auto d = vlist.rend();
+    //std::cout << "last element = " << *b << std::endl;
+
+
+    // std::cout << "Test ++i" << std::endl;
+    // for (auto i = vlist.begin(); i != vlist.end(); ++i)
+    //     std::cout << *i << " ";
+    // std::cout << std::endl;
+    // std::cout << std::endl;
+
+    std::cout << "Test i++" << std::endl;
+    for (auto i = vlist.begin(); i != vlist.end(); i++)
+        std::cout << *i << " ";
+    std::cout << std::endl;
+    std::cout << std::endl;
+
     return 0;
 }
 
