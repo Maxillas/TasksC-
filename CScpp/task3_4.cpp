@@ -48,21 +48,21 @@ public:
         const_iterator operator ++ (int)  {
             //const_iterator newIt();
 
-            typename VectT::const_iterator new_VectorIt = m_VectorIt;
-            typename ListT::const_iterator new_ListIt = m_ListIt;
+            //typename VectT::const_iterator new_VectorIt = m_VectorIt;
+            //typename ListT::const_iterator new_ListIt = m_ListIt;
             const_iterator output_It;
-            ++m_VectorIt;
+            //m_VectorIt++;
         // каждый раз создает новый объект и поэтому бесконечный цикл
-            new_VectorIt++;
-            if (new_VectorIt == (*m_ListIt).end()) { // если это был последний элемент в векторе
-                new_ListIt++; // переход на следующий вектор в списке
-                if (new_ListIt == m_data->end()) { //если это был последний вектор в списке
-                    output_It = const_iterator(*m_data, new_ListIt, new_VectorIt);
+            m_VectorIt++;
+            if (m_VectorIt == (*m_ListIt).end()) { // если это был последний элемент в векторе
+                m_ListIt++; // переход на следующий вектор в списке
+                if (m_ListIt == m_data->end()) { //если это был последний вектор в списке
+                    output_It = const_iterator(*m_data, m_ListIt, m_VectorIt);
                     return output_It;
                 }
-                new_VectorIt = (*m_ListIt).begin();
+                m_VectorIt = (*m_ListIt).begin();
             }
-            output_It = const_iterator(*m_data, new_ListIt, new_VectorIt);
+            output_It = const_iterator(*m_data, m_ListIt, m_VectorIt);
             std::cout << "asssa = " << *output_It << std::endl;
             return output_It;
         };
