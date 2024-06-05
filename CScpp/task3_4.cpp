@@ -46,24 +46,20 @@ public:
         };
 
         const_iterator operator ++ (int)  {
-            //const_iterator newIt();
 
-            //typename VectT::const_iterator new_VectorIt = m_VectorIt;
-            //typename ListT::const_iterator new_ListIt = m_ListIt;
-            const_iterator output_It;
-            //m_VectorIt++;
-        // каждый раз создает новый объект и поэтому бесконечный цикл
+            const_iterator output_It;      
             m_VectorIt++;
             if (m_VectorIt == (*m_ListIt).end()) { // если это был последний элемент в векторе
+                //std::cout << "end vector!!!" << std::endl;
                 m_ListIt++; // переход на следующий вектор в списке
                 if (m_ListIt == m_data->end()) { //если это был последний вектор в списке
+                    //std::cout << "end LIST!!!" << std::endl;
                     output_It = const_iterator(*m_data, m_ListIt, m_VectorIt);
                     return output_It;
                 }
                 m_VectorIt = (*m_ListIt).begin();
             }
             output_It = const_iterator(*m_data, m_ListIt, m_VectorIt);
-            std::cout << "asssa = " << *output_It << std::endl;
             return output_It;
         };
 
@@ -131,9 +127,9 @@ public:
     }
     const_iterator end() const {
         auto lastIt = data_.end();
-        lastIt--;
-        auto lastElemIt = (*lastIt).end();
-        lastElemIt--;
+        auto lastElemIt = (*(--lastIt)).end();
+        //std::cout <<"lastELEM = " << *(--lastElemIt) << std::endl;
+        //lastElemIt--;
         const_iterator end_it(data_, lastIt, lastElemIt);
         return end_it;
     }

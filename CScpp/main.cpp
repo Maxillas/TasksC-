@@ -499,7 +499,7 @@ int main() {
     auto a = vlist.begin();
     std::cout << "first element = " << *a << std::endl;
     auto b = vlist.end();
-    std::cout << "last element = " << *b << std::endl;
+    //std::cout << "last element = " << *(b--) << std::endl;
 
     //auto c = vlist.rbegin();
     //std::cout << "first revers element = " << *c << std::endl;
@@ -515,7 +515,7 @@ int main() {
 
     std::cout << "Test i++" << std::endl;
     for (auto i = vlist.begin(); i != vlist.end(); i++)
-        std::cout << *i << " ";
+        std::cout <<"i = " << *i << ", ";
     std::cout << std::endl;
     std::cout << std::endl;
 
