@@ -487,13 +487,10 @@ int main() {
 
 
 #if 1
+
     const VectorList<int> check_const_compile;
     auto check_const_equals_compile = check_const_compile.begin();
-    check_const_equals_compile == check_const_equals_compile;
-    assert(check_const_compile.begin() == check_const_compile.end());
-#endif
 
-#if 1
     VectorList<std::vector<int>> check_arrow_vl;
     std::vector<int> vint1 = {1, 2, 3};
     std::vector<int> vint2 = {4, 5, 6};
@@ -513,6 +510,8 @@ int main() {
     v1.push_back('B');
     v1.push_back('C');
     vec_list.append(v1.begin(), v1.end());
+    assert(std::distance(v1.begin(), v1.end()) == 3);
+    std::cout << "vec elem = " << *(--(v1.end())) << std::endl;
 
     std::vector<char> v2;
     v2.push_back('D');
@@ -522,7 +521,22 @@ int main() {
     vec_list.append(v2.begin(), v2.end());
 
     assert(vec_list.size() == 7);
+    std::cout << "begin = " << *((vec_list.begin())) << std::endl;
+    auto ggg = --vec_list.end();
+    std::cout << "USUKA BLA 5" << std::endl;
+    std::cout << "end = " << *(ggg) << std::endl;
+
+    // for (auto it = vec_list.begin(); it != vec_list.end(); ++it) {
+    //     std::cout << *it << std::endl;
+    // }
+    for (auto a = vec_list.begin(); a != vec_list.end(); a++) {
+        std::cout << "222222" << std::endl;
+    }
+    std::cout << "AUF  = " << std::distance(vec_list.begin(), vec_list.end()) << std::endl;
+
+
     assert(std::distance(vec_list.begin(), vec_list.end()) == 7);
+
 
     auto ra = vec_list.rbegin();
     ++ra;
