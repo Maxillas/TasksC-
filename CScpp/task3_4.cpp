@@ -25,7 +25,7 @@ public:
                                 std::bidirectional_iterator_tag,
                                 const T,
                                 int,
-                                T*,
+                                const T*,
                                 const T&
                                 >
     {
@@ -41,46 +41,90 @@ public:
         const_iterator(const const_iterator & it){};
         const_iterator(){};
 
-        T const & operator * () const {
-            return *m_VectorIt;
+        T const& operator * () const {
+            std::cout << "ESSSSS??????????" << std::endl;
+            auto it = m_data->begin();
+            for (it; it != m_data->end(); it++) {
+                if (it == m_ListIt) {
+                    break;
+                }
+            }
+            for (auto it_vect = (*it).cbegin(); it_vect != (*it).cend(); ++it_vect) {
+                if (it_vect == m_VectorIt) {
+                    return *it_vect;
+                }
+            }
         };
 
-        const_iterator operator ++ (int)  {
+        T const* operator->() const {
+            auto it = m_data->begin();
+            for (it; it != m_data->end(); it++) {
+                if (it == m_ListIt) {
+                    break;
+                }
+            }
+            for (auto it_vect = (*it).cbegin(); it_vect != (*it).cend(); ++it_vect) {
+                if (it_vect == m_VectorIt) {
+                    return &(*it_vect);
+                }
+            }
+        }
 
-            const_iterator output_It;      
+        const_iterator operator++(int)  {
+            auto copy = *this;
             m_VectorIt++;
             if (m_VectorIt == (*m_ListIt).end()) { // если это был последний элемент в векторе
-                //std::cout << "end vector!!!" << std::endl;
                 m_ListIt++; // переход на следующий вектор в списке
                 if (m_ListIt == m_data->end()) { //если это был последний вектор в списке
-                    //std::cout << "end LIST!!!" << std::endl;
-                    output_It = const_iterator(*m_data, m_ListIt, m_VectorIt);
-                    return output_It;
+                    return copy;
                 }
                 m_VectorIt = (*m_ListIt).begin();
             }
-            output_It = const_iterator(*m_data, m_ListIt, m_VectorIt);
-            return output_It;
+            return copy;
         };
 
-        const_iterator operator -- (int) const {
-            // if (m_VectorIt == m_ListIt.begin()) {
-            //     m_VectorIt =
-            // }
+        const_iterator& operator++() {
+
+            m_VectorIt++;
+            if (m_VectorIt == (*m_ListIt).end()) { // если это был последний элемент в векторе
+                m_ListIt++; // переход на следующий вектор в списке
+                if (m_ListIt == m_data->end()) { //если это был последний вектор в списке
+                    return *this;
+                }
+                m_VectorIt = (*m_ListIt).begin();
+            }
+            return *this;
+        }
+
+        const_iterator operator--(int) {
+            auto copy = *this;
+
+            if (m_VectorIt == (*m_ListIt).begin()) { // если это был первый элемент в векторе
+                if (m_ListIt == m_data->begin()) { //если это был первый вектор в списке
+                    return copy;
+                }
+                m_ListIt--; // переход на следующий вектор в списке
+                m_VectorIt = (*m_ListIt).end();
+            }
             m_VectorIt--;
-            return this;
+            return copy;
         };
 
         const_iterator& operator--() {
-            // if (m_VectorIt == m_ListIt.begin()) {
-            //     m_VectorIt =
-            // }
+
+            if (m_VectorIt == (*m_ListIt).begin()) { // если это был первый элемент в векторе
+                if (m_ListIt == m_data->begin()) { //если это был первый вектор в списке
+                    return *this;
+                }
+                m_ListIt--; // переход на следующий вектор в списке
+                m_VectorIt = (*m_ListIt).end();
+            }
             m_VectorIt--;
-            return this;
+            return *this;
         };
 
         bool operator != (const const_iterator& it) const {
-            if (m_VectorIt == it.m_VectorIt) {
+            if (m_VectorIt == it.m_VectorIt) { //возможно неверно, нельзя сравнивать из разных векторов
                 return false;
             }
             return true;
@@ -93,7 +137,7 @@ public:
             return false;
         };
 
-    private:
+    //private:
         ListT const * m_data;
         typename ListT::const_iterator m_ListIt;
         typename VectT::const_iterator m_VectorIt;
@@ -115,6 +159,7 @@ public:
     {
         size_t fullSize = 0;
         for (auto it = data_.begin(); it != data_.end(); ++it) {
+        //for (const auto &it : data_) {
             fullSize += (*it).size();
         }
         return fullSize;
@@ -124,22 +169,27 @@ public:
     const_iterator begin() const {
         const_iterator begin_it(data_, data_.begin(), (*(data_.begin())).begin());
         return begin_it;
+
+        // 2. Надо обязательно проверить, что begin и end для emptyVectorList равны, т.е.
+        // VectorList<int> emptyVectorList;
+        // emptyVectorList.begin() == emptyVectorList.end()
     }
     const_iterator end() const {
         auto lastIt = data_.end();
         auto lastElemIt = (*(--lastIt)).end();
-        //std::cout <<"lastELEM = " << *(--lastElemIt) << std::endl;
-        //lastElemIt--;
         const_iterator end_it(data_, lastIt, lastElemIt);
         return end_it;
     }
 
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+    //using const_reverse_iterator = std::reverse_iterator<VectorList<int>::const_iterator>;
 
     // определите методы rbegin / rend
     const_reverse_iterator rbegin() const {
-        const_reverse_iterator rBeginIt(begin());
-        return rBeginIt;
+        return const_reverse_iterator(--end());
+    }
+    const_reverse_iterator rend() const {
+        return const_reverse_iterator(--begin());
     }
     // const_reverse_iterator rend()   const { return ... ; }
 
