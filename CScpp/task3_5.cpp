@@ -7,26 +7,30 @@
 template<class FwdIt>
 FwdIt remove_nth(FwdIt p, FwdIt q, size_t n)
 {
+    auto a = std::distance(p,q);
 
-    if(std::distance(p,q) <= 1 || std::distance(p,q) < n)
+    if((a == 1 && n == 0)) {
+        return p;
+    }
+    if (n >= a || a == 0) {
         return q;
-
+    }
     int i = 0;
     FwdIt it = p;
     FwdIt output;
-    //FwdIt itEnd = q;
+   // FwdIt itEnd = q;
     while (i != n) {
         it++;
         i++;
     }
     for(; it != q; ++it) {
-        FwdIt nextIt = std::next(it, 1);
-        std::swap(*it, *nextIt);
+        FwdIt nextIt = std::next(it);
         if (nextIt == q) {
-            output = it;
+            return it;
         }
-    }
+        std::swap(*it, *nextIt);
 
+    }
     return output;
 }
 

@@ -766,7 +766,7 @@ int main() {
     {
         std::vector<int> v = {0,1,2,3,4,5,6,7,8,9,10};
         v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
-        std::cout << "Test #1" << std::endl;
+        std::cout << "Test #1 = 0 1 2 3 4 6 7 8 9 10" << std::endl;
         for(const auto& val : v) {
             std::cout << val << ' ';
         }
@@ -776,7 +776,7 @@ int main() {
     {
         std::vector<int> v = {};
         v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
-        std::cout << "Test #2" << std::endl;
+        std::cout << "Test #2 = []" << std::endl;
         for(const auto& val : v) {
             std::cout << val << ' ';
         }
@@ -786,7 +786,7 @@ int main() {
     {
         std::vector<int> v = {1};
         v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
-        std::cout << "Test #3" << std::endl;
+        std::cout << "Test #3 = 1" << std::endl;
         for(const auto& val : v) {
             std::cout << val << ' ';
         }
@@ -796,7 +796,7 @@ int main() {
     {
         std::vector<int> v = {1};
         v.erase(remove_nth(v.begin(), v.end(), 0), v.end());
-        std::cout << "Test #4" << std::endl;
+        std::cout << "Test #4 = []" << std::endl;
         for(const auto& val : v) {
             std::cout << val << ' ';
         }
@@ -806,7 +806,7 @@ int main() {
     {
         std::vector<int> v = {1, 2};
         v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
-        std::cout << "Test #5" << std::endl;
+        std::cout << "Test #5 = [1, 2]" << std::endl;
         for(const auto& val : v) {
             std::cout << val << ' ';
         }
@@ -816,7 +816,7 @@ int main() {
     {
         std::vector<int> v = {1, 2};
         v.erase(remove_nth(v.begin(), v.end(), 0), v.end());
-        std::cout << "Test #6" << std::endl;
+        std::cout << "Test #6 = [2]" << std::endl;
         for(const auto& val : v) {
             std::cout << val << ' ';
         }
@@ -826,11 +826,105 @@ int main() {
     {
         std::vector<int> v = {1, 2};
         v.erase(remove_nth(v.begin(), v.end(), 1), v.end());
-        std::cout << "Test #7" << std::endl;
+        std::cout << "Test #7 = [1]" << std::endl;
         for(const auto& val : v) {
             std::cout << val << ' ';
         }
         std::cout << std::endl;
+    }
+
+    {
+        std::vector<int> v = { 0,1,1,1,1,1,1,1,1,1 };
+        v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
+        std::cout << "Test #8 = [1]" << std::endl;
+        for(const auto& val : v) {
+            std::cout << val << ' ';
+        }
+        std::cout << std::endl;
+        v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
+        std::cout << "Test #9 = [1]" << std::endl;
+        for(const auto& val : v) {
+            std::cout << val << ' ';
+        }
+        std::cout << std::endl;
+        v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
+        std::cout << "Test #10 = [1]" << std::endl;
+        for(const auto& val : v) {
+            std::cout << val << ' ';
+        }
+        std::cout << std::endl;
+        v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
+        std::cout << "Test #11 = [1]" << std::endl;
+        for(const auto& val : v) {
+            std::cout << val << ' ';
+        }
+        std::cout << std::endl;
+        v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
+        std::cout << "Test #12 = [1]" << std::endl;
+        for(const auto& val : v) {
+            std::cout << val << ' ';
+        }
+        std::cout << std::endl;
+        v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
+        std::cout << "Test #13 = [1]" << std::endl;
+        for(const auto& val : v) {
+            std::cout << val << ' ';
+        }
+        std::cout << std::endl;
+
+        v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
+        std::cout << "Test #14 = [1]" << std::endl;
+        for(const auto& val : v) {
+            std::cout << val << ' ';
+        }
+        std::cout << std::endl;
+
+       // std::cout << "" << std::endl;
+    {
+//        std::vector<int> v{10,11,11,12,13,11,11,11,14};
+//        v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
+//        std::cout << "Test #15 = [1]" << std::endl;
+//        for(const auto& val : v) {
+//            std::cout << val << ' ';
+//        }
+//        v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
+//        std::cout << "Test #16 = [1]" << std::endl;
+//        for(const auto& val : v) {
+//            std::cout << val << ' ';
+//        }
+//        v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
+//        std::cout << "Test #17 = [1]" << std::endl;
+//        for(const auto& val : v) {
+//            std::cout << val << ' ';
+//        }
+//        v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
+//        std::cout << "Test #18 = [1]" << std::endl;
+//        for(const auto& val : v) {
+//            std::cout << val << ' ';
+//        }
+//        v.erase(remove_nth(v.begin(), v.end(), 4), v.end());
+//        std::cout << "Test #19 = [1]" << std::endl;
+//        for(const auto& val : v) {
+//            std::cout << val << ' ';
+//        }
+//        v.erase(remove_nth(v.begin(), v.end(), 0), v.end());
+//        std::cout << "Test #20 = [1]" << std::endl;
+//        for(const auto& val : v) {
+//            std::cout << val << ' ';
+//        }
+//        v.erase(remove_nth(v.begin(), v.end(), 1), v.end());
+//        std::cout << "Test #21 = [1]" << std::endl;
+//        for(const auto& val : v) {
+//            std::cout << val << ' ';
+//        }
+//        v.erase(remove_nth(v.begin(), v.end(), 1), v.end());
+//        std::cout << "Test #22 = [1]" << std::endl;
+//        for(const auto& val : v) {
+//            std::cout << val << ' ';
+//        }
+
+    }
+
     }
 
 
