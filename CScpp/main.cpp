@@ -4,6 +4,7 @@
 #include "task3_2.cpp"
 #include "task3_3.cpp"
 #include "task3_4.cpp"
+#include "task3_5.cpp"
 
 #include <cassert>
 #include <iostream>
@@ -520,19 +521,19 @@ int main() {
     v2.push_back('G');
     vec_list.append(v2.begin(), v2.end());
 
-    assert(vec_list.size() == 7);
-    std::cout << "begin = " << *((vec_list.begin())) << std::endl;
-    auto ggg = --vec_list.end();
-    std::cout << "USUKA BLA 5" << std::endl;
-    std::cout << "end = " << *(ggg) << std::endl;
+    // assert(vec_list.size() == 7);
+    // std::cout << "begin = " << *((vec_list.begin())) << std::endl;
+    // auto ggg = --vec_list.end();
+    // std::cout << "USUKA BLA 5" << std::endl;
+    // std::cout << "end = " << *(ggg) << std::endl;
 
     // for (auto it = vec_list.begin(); it != vec_list.end(); ++it) {
     //     std::cout << *it << std::endl;
     // }
-    for (auto a = vec_list.begin(); a != vec_list.end(); a++) {
-        std::cout << "222222" << std::endl;
-    }
-    std::cout << "AUF  = " << std::distance(vec_list.begin(), vec_list.end()) << std::endl;
+    // for (auto a = vec_list.begin(); a != vec_list.end(); a++) {
+    //     std::cout << "222222" << std::endl;
+    // }
+    // std::cout << "AUF  = " << std::distance(vec_list.begin(), vec_list.end()) << std::endl;
 
 
     assert(std::distance(vec_list.begin(), vec_list.end()) == 7);
@@ -742,6 +743,96 @@ int main() {
     // }
 
     // std::cout << std::endl;
+
+    std::cout << "____________________" << std::endl;
+    std::vector<int> v = {0,1,2,3,4,5,6,7,8,9,10};
+    for(auto it = v.begin(); it != v.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+
+    v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
+
+    //remove_nth(v.begin(), v.end(), 5);
+
+    for(auto it = v.begin(); it != v.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    //теперь в v = {0,1,2,3,4,6,7,8,9,10};
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    {
+        std::vector<int> v = {0,1,2,3,4,5,6,7,8,9,10};
+        v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
+        std::cout << "Test #1" << std::endl;
+        for(const auto& val : v) {
+            std::cout << val << ' ';
+        }
+        std::cout << std::endl;
+    }
+
+    {
+        std::vector<int> v = {};
+        v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
+        std::cout << "Test #2" << std::endl;
+        for(const auto& val : v) {
+            std::cout << val << ' ';
+        }
+        std::cout << std::endl;
+    }
+
+    {
+        std::vector<int> v = {1};
+        v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
+        std::cout << "Test #3" << std::endl;
+        for(const auto& val : v) {
+            std::cout << val << ' ';
+        }
+        std::cout << std::endl;
+    }
+
+    {
+        std::vector<int> v = {1};
+        v.erase(remove_nth(v.begin(), v.end(), 0), v.end());
+        std::cout << "Test #4" << std::endl;
+        for(const auto& val : v) {
+            std::cout << val << ' ';
+        }
+        std::cout << std::endl;
+    }
+
+    {
+        std::vector<int> v = {1, 2};
+        v.erase(remove_nth(v.begin(), v.end(), 5), v.end());
+        std::cout << "Test #5" << std::endl;
+        for(const auto& val : v) {
+            std::cout << val << ' ';
+        }
+        std::cout << std::endl;
+    }
+
+    {
+        std::vector<int> v = {1, 2};
+        v.erase(remove_nth(v.begin(), v.end(), 0), v.end());
+        std::cout << "Test #6" << std::endl;
+        for(const auto& val : v) {
+            std::cout << val << ' ';
+        }
+        std::cout << std::endl;
+    }
+
+    {
+        std::vector<int> v = {1, 2};
+        v.erase(remove_nth(v.begin(), v.end(), 1), v.end());
+        std::cout << "Test #7" << std::endl;
+        for(const auto& val : v) {
+            std::cout << val << ' ';
+        }
+        std::cout << std::endl;
+    }
+
 
     return 0;
 }
