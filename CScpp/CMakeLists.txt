@@ -11,7 +11,8 @@ add_executable(CScpp main.cpp task1_2_4.cpp task1_2_10.cpp task1_4.cpp
     task3_2.cpp
     task3_3.cpp
     task3_4.cpp
-    task3_5.cpp)
+    task3_5.cpp
+    task4_1.cpp)
 
 install(TARGETS CScpp
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
