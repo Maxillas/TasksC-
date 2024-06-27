@@ -48,7 +48,73 @@ struct IntList<> {};
 //constexpr size_t len = Length<primes>::value; // 6
 
 template<typename T>
-struct Lenght
+struct Length
 {
-    static int const value = 1 + Lenght<typename T::Tail>::value;
+    static int const value = 1 + Length<typename T::Tail>::value;
+};
+
+template<>
+struct Length<IntList<>>
+{
+    static int const value = 0;
+};
+
+//Напишите две метафункции для работы c IntList:
+
+//    IntCons позволяет увеличить список на один элемент — он добавляется в начало списка.
+//    Generate позволяет сгенерировать список длины N с числами от 0 до N - 1.
+
+//Пример:
+
+
+//using L1 = IntList<2,3,4>;
+
+
+//using L2 = IntCons<1, L1>::type;   // IntList<1,2,3,4>
+
+//using L3 = Generate<5>::type;      // IntList<0,1,2,3,4>
+
+
+
+
+
+
+
+//Напишите метафункцию Zip (аналог std::transform), которая принимает два списка целых чисел одинаковой длины, а так же бинарную метафункцию,
+//и возвращает список, получившийся в результате поэлементного применения метафункции к соответствующим элементам исходных списков.
+
+//Пример:
+
+// бинарная метафункция
+//template<int a, int b>
+//struct Plus
+//{
+//    static int const value = a + b;
+//};
+
+// два списка одной длины
+//using L1 = IntList<1,2,3,4,5>;
+//using L2 = IntList<1,3,7,7,2>;
+
+// результат применения — список с поэлементными суммами
+//using L3 = Zip<L1, L2, Plus>::type;  // IntList<2, 5, 10, 11, 7>
+
+// Шаблон для представления списка целых чисел
+template<int... Ns>
+struct IntList {};
+
+// Пример бинарной метафункции Plus
+template<int a, int b>
+struct Plus {
+    static constexpr int value = a + b;
+};
+
+// Основной шаблон для Zip
+template<typename L1, typename L2, template<int, int> class F>
+struct Zip;
+
+// Частичная специализация для обработки непустых списков
+template<int... Ns1, int... Ns2, template<int, int> class F>
+struct Zip<IntList<Ns1...>, IntList<Ns2...>, F> {
+    using type = IntList<F<Ns1, Ns2>::value...>;
 };
