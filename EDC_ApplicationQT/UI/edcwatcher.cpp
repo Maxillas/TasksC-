@@ -40,14 +40,27 @@ EDCWatcher::EDCWatcher(QWidget *parent)
     // QStringListModel *model = new QStringListModel();
     // model->setStringList(dataList);
 
-
     connect(m_btnCreate, &QPushButton::clicked, m_fileManager, &FileModelManager::createFile);
-    connect(m_btnDownload, &QPushButton::clicked, m_fileManager, &FileModelManager::downloadFile);
+    connect(m_btnDownload, &QPushButton::clicked, this, &EDCWatcher::downloadCurrentFile);
+
+
+
     connect(m_btnUnload, &QPushButton::clicked, m_fileManager, &FileModelManager::unloadFile);
-    connect(m_btnDelete, &QPushButton::clicked, m_fileManager, &FileModelManager::deleteFile);
+
+    connect(m_btnDelete, &QPushButton::clicked, this, &EDCWatcher::deleteCurrentFile);
 
 
 }
 
 EDCWatcher::~EDCWatcher() {
+}
+
+void EDCWatcher::deleteCurrentFile()
+{
+    m_fileManager->deleteFile(m_listView->currentIndex());
+}
+
+void EDCWatcher::downloadCurrentFile()
+{
+    m_fileManager->downloadFile(m_listView->currentIndex());
 }

@@ -14,6 +14,8 @@ class EDCWatcher : public QWidget
 public:
     EDCWatcher(QWidget *parent = nullptr);
     ~EDCWatcher();
+signals:
+
 
 private:
     QVBoxLayout* m_layout = nullptr;
@@ -24,6 +26,9 @@ private:
     QListView* m_listView = nullptr;
 
     FileModelManager* m_fileManager = nullptr;
+
+    void deleteCurrentFile();
+    void downloadCurrentFile();
 
 };
 #endif // EDCWATCHER_H

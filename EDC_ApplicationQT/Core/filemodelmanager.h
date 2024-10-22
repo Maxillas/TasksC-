@@ -19,17 +19,20 @@ public:
 
 public slots:
     void createFile();
-    void downloadFile();
+    void downloadFile(QModelIndex index);
     void unloadFile();
-    void deleteFile();
+    void deleteFile(QModelIndex index);
 
 
 private:
     QStringListModel* m_list_model = nullptr;
     QStringListModel* getModelRef();
 
-    size_t currentIndex;
+    QString fileNameGenerator();
 
+    QModelIndex m_selectedIndex;
+    QString m_prevFileName;
+    QFile m_downloadedFile;
 
     QFileSystemWatcher m_fileSystemWatcher;
     QDir m_directory;
