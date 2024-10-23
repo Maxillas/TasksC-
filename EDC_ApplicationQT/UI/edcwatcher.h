@@ -6,6 +6,7 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QListView>
+#include <QSystemTrayIcon>
 
 class EDCWatcher : public QWidget
 {
@@ -13,9 +14,6 @@ class EDCWatcher : public QWidget
 
 public:
     EDCWatcher(QWidget *parent = nullptr);
-    ~EDCWatcher();
-signals:
-
 
 private:
     QVBoxLayout* m_layout = nullptr;
@@ -24,11 +22,20 @@ private:
     QPushButton* m_btnUnload = nullptr;
     QPushButton* m_btnDelete = nullptr;
     QListView* m_listView = nullptr;
+    QSystemTrayIcon* m_trayIcon = nullptr;
 
     FileModelManager* m_fileManager = nullptr;
 
+    void changeEvent(QEvent* event) override;
+    void closeEvent(QCloseEvent *event) override;
+
+    void showApp();
+    void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
+
+    void createNewFile();
     void deleteCurrentFile();
     void downloadCurrentFile();
+    void unloadCurrentFile();
 
 };
 #endif // EDCWATCHER_H

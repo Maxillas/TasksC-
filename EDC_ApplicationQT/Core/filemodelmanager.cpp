@@ -11,64 +11,78 @@ FileModelManager::FileModelManager(QObject *parent)
     }
 
     m_list_model = new QStringListModel(this);
-    m_list_model->setStringList(m_directory.entryList(QDir::Files));
+    m_fileSystemWatcher = new QFileSystemWatcher(this);
 
+    updateModel();
 
+    m_fileSystemWatcher->addPath(DIR_PATH);
+    connect(m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged,
+            this, &FileModelManager::updateModel);
 }
 
-void FileModelManager::createFile()
+bool FileModelManager::createFile()
 {
     QFile newFile(fileNameGenerator());
     if (newFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream out(&newFile);
         out << "CODE!\n";
         newFile.close();
+        return true;
     }
-    m_list_model->setStringList(m_directory.entryList(QDir::Files));
+    return false;
 }
 
-void FileModelManager::downloadFile(QModelIndex index)
+ERRORS FileModelManager::downloadFile(QModelIndex index)
 {    
     if(m_selectedIndex == index) {
-        return;
+        return ERRORS::CURRENT_FILE;
     }
-
     unloadFile();
     m_selectedIndex = index;
     m_prevFileName = m_selectedIndex.data().toString();
-    m_list_model->setData(m_selectedIndex, m_selectedIndex.data().toString() + "\t" + "***ЗАГРУЖЕНО***");
+    m_list_model->setData(m_selectedIndex,
+                          m_selectedIndex.data().toString() + "\t" + "***ЗАГРУЖЕНО***");
+
     m_downloadedFile.setFileName(static_cast<QString>(DIR_PATH) + "/" + m_prevFileName);
 
-    if(m_downloadedFile.open(QIODevice::WriteOnly)) {
-        qDebug() << "Файл загружен";
+    if(m_downloadedFile.open(QIODevice::ReadOnly)) {
+        return ERRORS::SUCCESS;
     } else {
-        qDebug() << "Ошибка загрузки файла";
+        return ERRORS::SOME_ERROR;
     }
 }
 
-void FileModelManager::unloadFile()
+ERRORS FileModelManager::unloadFile()
 {
     if(!(m_selectedIndex.isValid())) {
-        return;
+        return ERRORS::CURRENT_FILE;
     }
     m_list_model->setData(m_selectedIndex, m_prevFileName);
     m_selectedIndex = QModelIndex();
 
     if(m_downloadedFile.isOpen()) {
         m_downloadedFile.close();
-        qDebug() << "Файл выгружен";
+        return ERRORS::SUCCESS;
     } else {
-        qDebug() << "Файл не открыт!";
+        return ERRORS::SOME_ERROR;
     }
 }
 
-void FileModelManager::deleteFile(QModelIndex index)
+ERRORS FileModelManager::deleteFile(QModelIndex index)
 {
-    QFile searchedFile(static_cast<QString>(DIR_PATH) + "/" + index.data().toString());
-    if (searchedFile.exists()) {
-        searchedFile.remove();
+    if(m_selectedIndex.isValid()) {
+        return ERRORS::CURRENT_FILE;
     }
-    m_list_model->setStringList(m_directory.entryList(QDir::Files));
+    QString searchedFileName = static_cast<QString>(DIR_PATH) + "/" + index.data().toString();
+    QFile searchedFile(searchedFileName);
+    QFileInfo fileInfo(searchedFileName);
+
+    if (!(searchedFile.exists()) || fileInfo.isDir()) {
+        return ERRORS::SOME_ERROR ;
+    }
+    searchedFile.remove();
+    updateModel();
+    return ERRORS::SUCCESS;
 }
 
 QStringListModel* FileModelManager::getModelRef()
@@ -78,6 +92,12 @@ QStringListModel* FileModelManager::getModelRef()
 
 QString FileModelManager::fileNameGenerator()
 {
-    QString fileName = "Key_" + QDateTime::currentDateTime().toString("dd:mm:yyyy_hh:mm:ss") + ".txt";
+    QString fileName = "Key_" +
+                        QDateTime::currentDateTime().toString("dd.MM.yyyy_hh.mm.ss") + ".txt";
     return (static_cast<QString>(DIR_PATH) + "/" + fileName);
+}
+
+void FileModelManager::updateModel()
+{
+    m_list_model->setStringList(m_directory.entryList(QDir::Files));
 }

@@ -12,60 +12,29 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
-set(PROJECT_SOURCES
-        main.cpp
-        UI/edcwatcher.cpp
+
+set(HEADERS
         UI/edcwatcher.h
+        Core/filemodelmanager.h
 )
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(Tests
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
+set(SOURCES
+        main.cpp
+        UI/edcwatcher.cpp
+        Core/filemodelmanager.cpp
+)
 
-        Core/filemodelmanager.h Core/filemodelmanager.cpp
-    )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET Tests APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-else()
-    if(ANDROID)
-        add_library(Tests SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(Tests
-            ${PROJECT_SOURCES}
-        )
-    endif()
-endif()
+set(RESOURCES
+        UI/Resources/system_tray_icon.svg)
+
+add_executable(Tests ${SOURCES})
 
 target_link_libraries(Tests PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
-if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.Tests)
-endif()
-set_target_properties(Tests PROPERTIES
-    ${BUNDLE_ID_OPTION}
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
-)
+if(WIN32)
+    message(STATUS "Configuring for Windows")
 
-include(GNUInstallDirs)
-install(TARGETS Tests
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
+elseif(UNIX)
+    message(STATUS "Configuring for Linux")
 
-if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(Tests)
 endif()

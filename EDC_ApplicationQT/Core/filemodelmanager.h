@@ -6,6 +6,11 @@
 
 #include <QStringListModel>
 
+enum class ERRORS {
+    SUCCESS,
+    CURRENT_FILE,
+    SOME_ERROR
+};
 
 class FileModelManager : public QObject
 {
@@ -18,10 +23,10 @@ public:
     FileModelManager(QObject *parent = nullptr);
 
 public slots:
-    void createFile();
-    void downloadFile(QModelIndex index);
-    void unloadFile();
-    void deleteFile(QModelIndex index);
+    bool createFile();
+    ERRORS downloadFile(QModelIndex index);
+    ERRORS unloadFile();
+    ERRORS deleteFile(QModelIndex index);
 
 
 private:
@@ -30,11 +35,13 @@ private:
 
     QString fileNameGenerator();
 
+    void updateModel();
+
     QModelIndex m_selectedIndex;
     QString m_prevFileName;
     QFile m_downloadedFile;
 
-    QFileSystemWatcher m_fileSystemWatcher;
+    QFileSystemWatcher* m_fileSystemWatcher = nullptr;
     QDir m_directory;
 
 };
