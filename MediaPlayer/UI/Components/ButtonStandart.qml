@@ -4,7 +4,7 @@ import QtQuick.Controls
 Button {
   id: root
   property string mainText: ""
-  property color btnColor: enabled ? "#5caabe" :  Qt.alpha("#5caabe", 0.3)
+  property color btnColor: enabled ? "#56b4d0" :  Qt.alpha("#56b4d0", 0.3)
   property color backgroundColor: "white"
   width: 125
   height: 35
@@ -15,7 +15,6 @@ Button {
     font.family: "Arial"
     font.pointSize: 14
     color: btnColor
-
   }
   background: Rectangle {
     border.color: btnColor

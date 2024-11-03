@@ -4,11 +4,11 @@ import "../Components"
 
 Rectangle {
   id: root
-  property color textColor: "#5caabe"
+  property color textColor: "#56b4d0"
 
   Column {
     anchors.fill: parent
-    //spacing: 5
+
     Rectangle {
       id: upperBlock
       height: root.height / 2 / 2.5
@@ -228,7 +228,7 @@ Rectangle {
 
     Rectangle {
       id: paramBlock
-      height: root.height / 2
+      height: root.height / 3
       width: root.width
       //color: transparentColor
       ParametersView {

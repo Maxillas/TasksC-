@@ -6,7 +6,8 @@ import "Blocks"
 Rectangle {
   id: root
   width: 1000
-  height: 550
+  height: 600
+
   property color backgroundColor: "#043544"
   property color transparentColor: Qt.alpha(backgroundColor, 0)
 
@@ -18,12 +19,16 @@ Rectangle {
   }
 
   Column {
-    anchors.fill: parent
-    //anchors.topMargin: 25
-    anchors.margins: 25
+    anchors {
+      fill: parent
+      leftMargin: 25
+      rightMargin: 25
+      bottomMargin: 25
+    }
+
     Rectangle {
       id: upper
-      height: root.height * 2/3 - 25 // 25 = TopMargin
+      height: root.height * 2.2/3 - 25 // 25 = TopMargin
       width: root.width - 75 // 75 left + right margin + spacing
       color: transparentColor
 
@@ -46,9 +51,10 @@ Rectangle {
     }
     Bottom {
       id: bottomBlock
-      height: root.height * 1/3 - 25
-      width: root.width - 75
+      height: root.height * 0.8/3 - 25
+      width: root.width - 50 // 50 = left + right margin
       color: transparentColor
     }
   }
 }
+

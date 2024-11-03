@@ -9,7 +9,7 @@ Rectangle {
     Rectangle {
       id: spacer
       width: root.width
-      height: 13
+      height: 20
       color: transparentColor
     }
 
@@ -35,7 +35,7 @@ Rectangle {
     }
     ListView {
       id: playList
-      Layout.preferredHeight: root.height - upperBlock.height - bottom.height
+      Layout.preferredHeight: root.height - upperBlock.height - bottom.height - spacer.height - 15
       Layout.preferredWidth: root.width
 
     }
