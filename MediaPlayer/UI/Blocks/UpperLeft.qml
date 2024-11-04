@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import Qt.labs.platform
 import "../Components"
 
 Rectangle {
@@ -11,6 +12,11 @@ Rectangle {
       width: root.width
       height: 20
       color: transparentColor
+    }
+
+    FileDialog {
+      id: file_dialog
+      visible: false
     }
 
     Rectangle {
@@ -25,6 +31,9 @@ Rectangle {
           id: openBtn
           mainText: "open playlist"
           backgroundColor: transparentColor
+          onClicked: {
+            file_dialog.visible = true
+          }
         }
         ButtonStandart {
           id: newBtn
