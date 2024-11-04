@@ -73,6 +73,9 @@ Rectangle {
         rightMargin: 25
       }
       imageSource: "../Resources/stop.png"
+      onClicked: {
+        AudioPlayer.stop();
+      }
     }
     ButtonRound {
       id: prevBtn
@@ -93,7 +96,18 @@ Rectangle {
         top: progressBar.bottom
         topMargin: 5
       }
-      imageSource: enabled ? "../Resources/play.png" : "../Resources/pause.png"
+      imageSource: {
+         if(!AudioPlayer) {
+          return ""; //проверка на существование объекта с++
+         }
+        !AudioPlayer.isPlaying ? "../Resources/play.png" : "../Resources/pause.png"
+      }
+
+
+
+      onClicked: {
+        AudioPlayer.play();
+      }
     }
     ButtonRound {
       id: nextBtn
