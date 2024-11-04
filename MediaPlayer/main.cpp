@@ -13,10 +13,15 @@ int main(int argc, char *argv[])
 
     view.engine()->rootContext()->setContextProperty("AudioPlayer", &audioPlayer);
 
+    view.engine()->rootContext()->setContextProperty("PlayListManager", &audioPlayer.playListManager());
+    view.engine()->rootContext()->setContextProperty("PlayList", &audioPlayer.playListManager().playList());
+
+    //view.engine()->rootContext()->setContextProperty("PlayList", &audioPlayer.playList());
+
     view.setSource(QStringLiteral("qrc:/MediaPlayer/UI/Main.qml"));
 
-    QObject::connect(view.engine(), &QQmlEngine::quit, &app,
-        [&view]() {
+    QObject::connect(view.engine(), &QQmlEngine::quit, &view,
+        []() {
             qApp->quit();
         });
 

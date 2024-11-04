@@ -34,6 +34,8 @@ qt_add_qml_module(appMediaPlayer
     SOURCES
         Core/mediaplayer.h Core/mediaplayer.h
         Core/mediaplayer.h Core/mediaplayer.cpp
+        SOURCES Core/playlistmodel.h Core/playlistmodel.cpp
+        SOURCES Core/playlistmanager.h Core/playlistmanager.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -49,6 +51,7 @@ qt_add_qml_module(appMediaPlayer
 
 target_link_libraries(appMediaPlayer
     PUBLIC Qt6::Multimedia
+
     PRIVATE Qt6::Quick
 
 )

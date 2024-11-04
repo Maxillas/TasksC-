@@ -1,6 +1,7 @@
 #include "mediaplayer.h"
 #include <QAudioOutput>
 #include <QQmlEngine>
+#include <QTimer>
 
 MediaPlayer::MediaPlayer(QObject *parent)
     : QObject{parent}
@@ -11,9 +12,10 @@ MediaPlayer::MediaPlayer(QObject *parent)
    // m_audioOutput->setDevice()
     m_mediaPlayer->setAudioOutput(m_audioOutput);
 
-    m_mediaPlayer->setSource(QUrl::fromLocalFile("Try.mp3"));
+    m_mediaPlayer->setSource(QString("Try.mp3"));
 
     QJSEngine::setObjectOwnership(this, QJSEngine::ObjectOwnership::CppOwnership);
+
 }
 
 void MediaPlayer::play()
@@ -50,3 +52,14 @@ bool MediaPlayer::isPlaying() const
 {
     return m_mediaPlayer->isPlaying();
 }
+
+// PlaylistModel &MediaPlayer::playList()
+// {
+//     return m_playListManager.playList();
+// }
+
+PlaylistManager& MediaPlayer::playListManager()
+{
+    return m_playListManager;
+}
+

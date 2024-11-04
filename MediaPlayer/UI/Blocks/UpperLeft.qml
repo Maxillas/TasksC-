@@ -37,6 +37,13 @@ Rectangle {
       id: playList
       Layout.preferredHeight: root.height - upperBlock.height - bottom.height - spacer.height - 15
       Layout.preferredWidth: root.width
+      model: PlayList
+      delegate: Text {
+        text: model.display
+        width: 50
+        height: 50
+        color: "white"
+      }
 
     }
     Rectangle {
@@ -51,7 +58,10 @@ Rectangle {
           id: addBtn
           mainText: "add track"
           backgroundColor: transparentColor
-          enabled: false
+          //enabled: false
+          onClicked: {
+            PlayListManager.addTrack();
+          }
         }
         ButtonStandart {
           id: copyBtn
