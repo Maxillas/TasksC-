@@ -1,0 +1,38 @@
+cmake_minimum_required(VERSION 3.5)
+
+project(FindPathTask VERSION 0.1 LANGUAGES CXX)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
+
+set(HEADERS
+    UI/blocks/field.h
+    UI/blocks/field_wrapper.h
+    UI/blocks/size_setting.h
+    UI/left_side.h
+    UI/right_side.h
+
+    UI/main_window.h
+)
+
+set(SOURCES
+    main.cpp
+    UI/blocks/field.cpp
+    UI/blocks/field_wrapper.cpp
+    UI/blocks/size_setting.cpp
+    UI/left_side.cpp
+    UI/right_side.cpp
+    UI/main_window.cpp
+
+)
+
+add_executable(FindPathTask ${SOURCES})
+
+target_link_libraries(FindPathTask PRIVATE Qt6::Widgets)
+
