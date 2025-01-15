@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 
-#include "field.h"
+#include "field/field_view.h"
 
 class FieldWrapper : public QWidget
 {

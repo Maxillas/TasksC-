@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 set(HEADERS
-    UI/blocks/field.h
+    UI/blocks/field/field_view.h
     UI/blocks/field_wrapper.h
     UI/blocks/size_setting.h
     UI/left_side.h
@@ -25,7 +25,7 @@ set(HEADERS
 
 set(SOURCES
     main.cpp
-    UI/blocks/field.cpp
+    UI/blocks/field/field_view.cpp
     UI/blocks/field_wrapper.cpp
     UI/blocks/size_setting.cpp
     UI/left_side.cpp

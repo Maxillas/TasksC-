@@ -23,7 +23,8 @@ public:
     uint16_t getHeight() const;
 
 signals:
-    void generateField(uint16_t width, uint16_t height);
+    void generateField(uint16_t width, uint16_t height,
+                       uint16_t cellSize);
 
 private:
     explicit PathFinder(QObject *parent = nullptr);
