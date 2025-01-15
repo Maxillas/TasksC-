@@ -43,7 +43,6 @@ void RightSide::generateField()
         QMessageBox::warning(this, "Ошибка", "Некорректная ширина и высота!");
         return;
     }
-
     if(width == 0) {
         QMessageBox::warning(this, "Ошибка", "Некорректная ширина!");
         return;
