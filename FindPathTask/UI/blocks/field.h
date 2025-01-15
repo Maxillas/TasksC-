@@ -18,5 +18,7 @@ private:
     QGraphicsScene* m_scene = nullptr;
     QGraphicsRectItem* m_rect = nullptr;
 
+    void generateField(uint16_t width, uint16_t height);
+
 };
 #endif // FIELD_H

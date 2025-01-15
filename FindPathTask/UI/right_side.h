@@ -10,6 +10,7 @@ class RightSide : public QWidget
     Q_OBJECT
 public:
     explicit RightSide(QWidget *parent = nullptr);
+    void generateField();
 
 private:
     QVBoxLayout* m_layout = nullptr;

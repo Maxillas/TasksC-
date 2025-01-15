@@ -17,8 +17,10 @@ set(HEADERS
     UI/blocks/size_setting.h
     UI/left_side.h
     UI/right_side.h
-
     UI/main_window.h
+
+    Core/pathfinder.h
+    Core/field_controller.h
 )
 
 set(SOURCES
@@ -29,6 +31,9 @@ set(SOURCES
     UI/left_side.cpp
     UI/right_side.cpp
     UI/main_window.cpp
+
+    Core/pathfinder.cpp
+    Core/field_controller.cpp
 
 )
 

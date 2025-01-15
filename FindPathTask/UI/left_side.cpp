@@ -13,5 +13,4 @@ LeftSide::LeftSide(QWidget *parent)
     m_layout->setAlignment(Qt::AlignTop);
 
     this->setLayout(m_layout);
-    this->setFixedSize(780, 728);
 }

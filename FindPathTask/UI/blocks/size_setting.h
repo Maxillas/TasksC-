@@ -12,7 +12,13 @@ class SizeSetting : public QWidget
 public:
     explicit SizeSetting(QWidget *parent = nullptr);
 
+    void setWidth();
+    void setHeight();
+
 private:
+    static constexpr size_t MAX_WIDTH = 100;
+    static constexpr size_t MAX_HEIGHT = 100;
+
     QHBoxLayout* m_layout = nullptr;
     QLineEdit* m_widthEdit = nullptr;
     QLineEdit* m_heightEdit = nullptr;

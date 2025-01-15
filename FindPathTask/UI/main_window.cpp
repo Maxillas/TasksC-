@@ -13,17 +13,14 @@ MainWindow::MainWindow(QWidget *parent) :
     m_layout->addWidget(m_left);
     m_layout->addWidget(m_right);
 
-    //m_layout->setAlignment(Qt::AlignCenter);
-
     this->setLayout(m_layout);
-
-
-
     // End GUI Initialize
 
-    this->setStyleSheet("background-color: gray;");
+    this->setObjectName("mainWindow");
+    this->setStyleSheet("#mainWindow {background-color: white; border: 3px solid black;}");
     this->setFixedSize(1024, 768);
 
     this->show();
+
 }
 
