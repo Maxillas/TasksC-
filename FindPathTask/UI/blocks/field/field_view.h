@@ -16,15 +16,13 @@ class Field : public QGraphicsView
 public:
     Field(QGraphicsView *parent = nullptr);
 
-
 private:
-    //void onMouseClicked();
+    void onCellClicked();
+    void generateField(const uint16_t& width, const uint16_t& height);
 
     QGraphicsScene* m_scene = nullptr;
     QGraphicsRectItem* m_rect = nullptr;
     void wheelEvent(QWheelEvent *event) override;
-
-    void generateField(uint16_t width, uint16_t height);
 
     QVector<QVector<Cell*>> m_grid;
 };

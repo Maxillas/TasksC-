@@ -40,6 +40,7 @@ set(SOURCES
 )
 
 add_executable(FindPathTask ${SOURCES}
+    Core/cell_controller.h
 )
 
 target_link_libraries(FindPathTask PRIVATE Qt6::Widgets)

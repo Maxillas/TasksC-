@@ -2,6 +2,7 @@
 #define CELL_H
 
 #include <QGraphicsItem>
+#include "../../../Core/cell_controller.h"
 
 class Cell : public QGraphicsRectItem
 {
@@ -15,14 +16,14 @@ public:
     int column = -1;
     Cell* parent = nullptr;
 
+    CellController controller; //объект для использования сигналов
+
 private:
-    //добавить QObject cell_controller, который будет содержать и вызывать сигналы.
 
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override {
-
+        emit controller.onCellPressed();
         qDebug() << "Mouse pressed on CustomRectItem at:" << row << ".." << column;
         qDebug() << "isWall = " << isWall;
-        //emit mousePressed();
 
     }
 };

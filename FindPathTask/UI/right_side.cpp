@@ -1,5 +1,5 @@
 #include "right_side.h"
-#include "../Core/pathfinder.h"
+#include "../Core/field_controller.h"
 
 #include <QMessageBox>
 
@@ -36,8 +36,8 @@ RightSide::RightSide(QWidget *parent)
 
 void RightSide::generateField()
 {
-    const uint16_t& width = PathFinder::getInstance().getWidth();
-    const uint16_t& height = PathFinder::getInstance().getHeight();
+    const uint16_t& width = FieldController::getInstance().getWidth();
+    const uint16_t& height = FieldController::getInstance().getHeight();
 
     if(width == 0 && height == 0) {
         QMessageBox::warning(this, "Ошибка", "Некорректная ширина и высота!");
@@ -52,6 +52,6 @@ void RightSide::generateField()
         return;
     }
 
-    emit PathFinder::getInstance().generateField(width, height);
+    emit FieldController::getInstance().generateField(width, height);
 }
 

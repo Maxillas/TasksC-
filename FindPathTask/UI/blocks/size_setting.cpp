@@ -1,5 +1,5 @@
 #include "size_setting.h"
-#include "../../Core/pathfinder.h"
+#include "../../Core/field_controller.h"
 
 #include <QIntValidator>
 #include <QMessageBox>
@@ -60,15 +60,14 @@ void SizeSetting::setWidth()
     if(width > MAX_WIDTH) {
         QMessageBox::warning(this, "Ошибка", "Ширина должна быть не больше 100!");
         m_widthEdit->clear();
-        PathFinder::getInstance().setWidth(0);
+        FieldController::getInstance().setWidth(0);
         return;
     }
     if(width == 0) {
         QMessageBox::warning(this, "Ошибка", "Ширина не может быть равна 0!");
         m_widthEdit->clear();
-        //return;
     }
-    PathFinder::getInstance().setWidth(width);
+    FieldController::getInstance().setWidth(width);
 }
 
 void SizeSetting::setHeight()
@@ -82,13 +81,12 @@ void SizeSetting::setHeight()
     if(height > MAX_HEIGHT) {
         QMessageBox::warning(this, "Ошибка", "Высота должна быть не больше 100!");
         m_heightEdit->clear();
-        PathFinder::getInstance().setHeight(0);
+        FieldController::getInstance().setHeight(0);
         return;
     }
     if(height == 0) {
         QMessageBox::warning(this, "Ошибка", "Высота не может быть равна 0!");
         m_heightEdit->clear();
-        //return;
     }
-    PathFinder::getInstance().setHeight(height);
+    FieldController::getInstance().setHeight(height);
 }

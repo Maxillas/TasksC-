@@ -2,6 +2,7 @@
 #define PATHFINDER_H
 
 #include <QObject>
+//#include "../UI/blocks/field/cell.h"
 
 class PathFinder : public QObject
 {
@@ -14,22 +15,14 @@ public:
         static PathFinder instance;
         return instance;
     }
-    void setWidth(const uint16_t& newWidth);
-    uint16_t getWidth() const;
 
-    void setHeight(const uint16_t& newHeight);
-    uint16_t getHeight() const;
 
 signals:
-    void generateField(uint16_t width, uint16_t height);
+
 
 private:
     explicit PathFinder(QObject *parent = nullptr);
 
-    uint16_t m_height;
-    uint16_t m_width;
-
-signals:
 };
 
 #endif // PATHFINDER_H

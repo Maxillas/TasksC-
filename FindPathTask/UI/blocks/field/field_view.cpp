@@ -1,5 +1,6 @@
 #include "field_view.h"
-#include "../../../Core/pathfinder.h"
+#include "../../../Core/field_controller.h"
+#include "../../../Core/cell_controller.h"
 #include <QWheelEvent>
 #include <QRandomGenerator>
 
@@ -7,44 +8,19 @@ Field::Field(QGraphicsView *parent):
     QGraphicsView(parent),
     m_scene(new QGraphicsScene(this))
 {
-    //this->verticalScrollBar();
-    // this->setStyleSheet(
-    //     "QScrollBar:vertical {"
-    //     "   background: #f0f0f0;"
-    //     "   width: 15px;"
-    //     "}"
-    //     "QScrollBar::handle:vertical {"
-    //     "   background: #a0a0a0;"
-    //     "   min-height: 20px;"
-    //     "}"
-    //     "QScrollBar::add-line:vertical {"
-    //     "   background: none;"
-    //     "}"
-    //     "QScrollBar::sub-line:vertical {"
-    //     "   background: none;"
-    //     "}"
-    //     "QScrollBar:horizontal {"
-    //     "   background: #f0f0f0;"
-    //     "   height: 15px;"
-    //     "}"
-    //     "QScrollBar::handle:horizontal {"
-    //     "   background: #a0a0a0;"
-    //     "   min-width: 20px;"
-    //     "}"
-    //     "QScrollBar::add-line:horizontal {"
-    //     "   background: none;"
-    //     "}"
-    //     "QScrollBar::sub-line:horizontal {"
-    //     "   background: none;"
-    //     "}"
-    //     );
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setScene(m_scene);
     this->setFixedSize(750, 550);
     this->show();
 
-    connect(&PathFinder::getInstance(), &PathFinder::generateField, this, &Field::generateField);
+    connect(&FieldController::getInstance(), &FieldController::generateField,
+            this, &Field::generateField);
+}
+
+void Field::onCellClicked()
+{
+    qDebug() << "CLICK!";
 }
 
 void Field::wheelEvent(QWheelEvent *event)
@@ -70,7 +46,7 @@ void Field::wheelEvent(QWheelEvent *event)
     event->accept();
 }
 
-void Field::generateField(uint16_t width, uint16_t height)
+void Field::generateField(const uint16_t& width, const uint16_t& height)
 {
     m_scene->clear();
     this->resetTransform();
@@ -93,7 +69,8 @@ void Field::generateField(uint16_t width, uint16_t height)
             cell->row = row;
             cell->column = col;
 
-            //connect(cell, &Cell::mousePressed, this, &Field::onMouseClicked);
+            connect(&cell->controller, &CellController::onCellPressed,
+                    this, &Field::onCellClicked);
 
             m_scene->addItem(cell); //сцена управляет жизнью cell => delete не нужен
             m_grid[row][col] = cell;
