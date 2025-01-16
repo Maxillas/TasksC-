@@ -7,18 +7,12 @@ PathFinder::PathFinder(QObject *parent)
     m_width(0)
 {}
 
-void PathFinder::print()
-{
-    qDebug() << "YAHHHHA BLYA";
-}
-
 void PathFinder::setWidth(const uint16_t& newWidth)
 {
     if(m_width == newWidth) {
         return;
     }
     m_width = newWidth;
-    qDebug() << m_width;
 }
 
 uint16_t PathFinder::getWidth() const
@@ -32,7 +26,6 @@ void PathFinder::setHeight(const uint16_t& newHeight)
         return;
     }
     m_height = newHeight;
-    qDebug() << m_height;
 }
 
 uint16_t PathFinder::getHeight() const

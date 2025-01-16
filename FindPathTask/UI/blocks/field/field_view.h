@@ -4,6 +4,9 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsRectItem>
+#include <QVector>
+
+#include "cell.h"
 
 
 class Field : public QGraphicsView
@@ -15,11 +18,14 @@ public:
 
 
 private:
+    //void onMouseClicked();
+
     QGraphicsScene* m_scene = nullptr;
     QGraphicsRectItem* m_rect = nullptr;
     void wheelEvent(QWheelEvent *event) override;
 
-    void generateField(uint16_t width, uint16_t height, uint16_t cellSize);
+    void generateField(uint16_t width, uint16_t height);
 
+    QVector<QVector<Cell*>> m_grid;
 };
 #endif // FIELD_H

@@ -52,6 +52,6 @@ void RightSide::generateField()
         return;
     }
 
-    emit PathFinder::getInstance().generateField(width, height, 50);
+    emit PathFinder::getInstance().generateField(width, height);
 }
 

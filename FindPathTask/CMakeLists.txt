@@ -13,6 +13,8 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 set(HEADERS
     UI/blocks/field/field_view.h
+    UI/blocks/field/cell.h
+
     UI/blocks/field_wrapper.h
     UI/blocks/size_setting.h
     UI/left_side.h
@@ -37,7 +39,8 @@ set(SOURCES
 
 )
 
-add_executable(FindPathTask ${SOURCES})
+add_executable(FindPathTask ${SOURCES}
+)
 
 target_link_libraries(FindPathTask PRIVATE Qt6::Widgets)
 

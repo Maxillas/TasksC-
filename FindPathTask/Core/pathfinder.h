@@ -14,8 +14,6 @@ public:
         static PathFinder instance;
         return instance;
     }
-    void print();
-
     void setWidth(const uint16_t& newWidth);
     uint16_t getWidth() const;
 
@@ -23,8 +21,7 @@ public:
     uint16_t getHeight() const;
 
 signals:
-    void generateField(uint16_t width, uint16_t height,
-                       uint16_t cellSize);
+    void generateField(uint16_t width, uint16_t height);
 
 private:
     explicit PathFinder(QObject *parent = nullptr);
