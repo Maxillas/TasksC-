@@ -2,26 +2,32 @@
 #define PATHFINDER_H
 
 #include <QObject>
-//#include "../UI/blocks/field/cell.h"
+
+
+class Cell;
 
 class PathFinder : public QObject
 {
     Q_OBJECT
 public:
-    PathFinder(const PathFinder&) = delete;
-    PathFinder& operator=(const PathFinder&) = delete;
 
-    static PathFinder& getInstance() {
-        static PathFinder instance;
-        return instance;
-    }
+    explicit PathFinder(QObject *parent = nullptr);
+    void find(const QVector<QVector<Cell*>>& grid, Cell* start, Cell* end);
 
 
 signals:
 
 
 private:
-    explicit PathFinder(QObject *parent = nullptr);
+
+    // Функция для проверки, находится ли ячейка в пределах сетки
+    bool isValid(int row, int col, const QVector<QVector<Cell*>>& grid);
+
+    // Функция для поиска в глубину (DFS)
+    bool BFS(const QVector<QVector<Cell*>>& grid, int startRow, int startCol);
+
+    Cell* m_endCell = nullptr;
+    //const QVector<QVector<Cell*>>& m_grid;
 
 };
 

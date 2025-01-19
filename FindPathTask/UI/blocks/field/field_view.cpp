@@ -1,6 +1,8 @@
 #include "field_view.h"
 #include "../../../Core/field_controller.h"
-#include "../../../Core/cell_controller.h"
+#include "cell.h"
+
+//#include "../../../Core/cell_controller.h"
 #include <QWheelEvent>
 #include <QRandomGenerator>
 
@@ -16,11 +18,6 @@ Field::Field(QGraphicsView *parent):
 
     connect(&FieldController::getInstance(), &FieldController::generateField,
             this, &Field::generateField);
-}
-
-void Field::onCellClicked()
-{
-    qDebug() << "CLICK!";
 }
 
 void Field::wheelEvent(QWheelEvent *event)
@@ -46,8 +43,32 @@ void Field::wheelEvent(QWheelEvent *event)
     event->accept();
 }
 
+void Field::mouseMoveEvent(QMouseEvent *event)
+{
+    // Выводим координаты мыши
+    //qDebug() << "Mouse moved to:" << event->pos();
+    QGraphicsItem* item = this->itemAt(event->pos());
+
+    if (item) {
+        Cell* cell = dynamic_cast<Cell*>(item);
+        if (cell && FieldController::getInstance().isSearchStarted() && !cell->isWall) {
+            // Выводим информацию о ячейке
+            //qDebug() << "Mouse over cell at row:" << cell->row << "column:" << cell->column;
+
+            //FieldController::getInstance().onCellClicked(cell);
+            // Пример: изменяем цвет ячейки при наведении
+            //cell->setBrush(QBrush(Qt::yellow));
+        }
+    }
+
+    // Вызываем базовую реализацию, если нужно
+    //QGraphicsView::mouseMoveEvent(event);
+}
+
 void Field::generateField(const uint16_t& width, const uint16_t& height)
 {
+    //TODO перенести в отдельный поток генерацию поля, т.к. зависает при больших значениях
+    FieldController::getInstance().clean();
     m_scene->clear();
     this->resetTransform();
 
@@ -55,8 +76,7 @@ void Field::generateField(const uint16_t& width, const uint16_t& height)
     int cellHeight = (viewport()->height() - 2) / height;
     int cellSize = cellWidth <= cellHeight ? cellWidth : cellHeight;
 
-    m_grid.clear();
-    m_grid.resize(height, QVector<Cell*>(width));
+    FieldController::getInstance().initiateGrid(height, width);
 
     qreal wallProbability = 0.15;
 
@@ -69,18 +89,15 @@ void Field::generateField(const uint16_t& width, const uint16_t& height)
             cell->row = row;
             cell->column = col;
 
-            connect(&cell->controller, &CellController::onCellPressed,
-                    this, &Field::onCellClicked);
-
             m_scene->addItem(cell); //сцена управляет жизнью cell => delete не нужен
-            m_grid[row][col] = cell;
+            FieldController::getInstance().addItemInGrid(row, col, cell);
 
             if (QRandomGenerator::global()->generateDouble() < wallProbability) {
                 cell->setBrush(QBrush(Qt::black));
-                m_grid[row][col]->isWall = true;
+                FieldController::getInstance().setWall(row, col, true);
             } else {
                 cell->setBrush(QBrush(Qt::white));
-                m_grid[row][col]->isWall = false;
+                FieldController::getInstance().setWall(row, col, false);
             }
         }
     }

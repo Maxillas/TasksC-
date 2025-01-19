@@ -3,7 +3,9 @@
 
 #include <QObject>
 
-#include "../UI/blocks/field/cell.h"
+//#include "../UI/blocks/field/cell.h"
+
+class Cell;
 
 class FieldController : public QObject
 {
@@ -22,10 +24,19 @@ public:
     void setHeight(const uint16_t& newHeight);
     uint16_t getHeight() const;
 
-    void setStartCell(Cell* startCell);
+    void initiateGrid(uint16_t height, uint16_t width);
+    void addItemInGrid(int row, int col, Cell* cell);
+    void setWall(int row, int col, bool isWall);
 
+
+    void setStartCell(Cell* startCell);
+    bool isSearchStarted();
+    bool isSearchEnded();
+
+    void findPath();
 
     void clean();
+    void onCellClicked(Cell* clickedCell);
 
 signals:
     void generateField(uint16_t width, uint16_t height);
@@ -38,6 +49,11 @@ private:
 
     Cell* m_startCell = nullptr;
     Cell* m_endCell = nullptr;
+
+    bool m_isSearchStarted;
+    bool m_isSearchEnded;
+
+    QVector<QVector<Cell*>> m_grid;
 
 };
 

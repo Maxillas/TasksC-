@@ -5,6 +5,7 @@
 #include <QBrush>
 #include <QFont>
 #include "../../../Core/cell_controller.h"
+#include "../../../Core/field_controller.h"
 
 class Cell : public QGraphicsRectItem
 {
@@ -13,7 +14,7 @@ public:
         : QGraphicsRectItem(x, y, width, height, parent)
     {
         m_textItem = new QGraphicsTextItem(this);
-        m_textItem->setDefaultTextColor(Qt::black);
+        m_textItem->setDefaultTextColor(Qt::red);
     }
 
     bool isWall = false;
@@ -22,7 +23,13 @@ public:
     int column = -1;
     Cell* parent = nullptr;
 
-    CellController controller; //объект для использования сигналов
+    void setCellText(QString text) {
+        m_textItem->setPlainText(text);
+        updateFontSize();
+        centerText();
+    };
+
+    //CellController controller; //объект для использования сигналов
 
 private:
 
@@ -44,21 +51,16 @@ private:
         m_textItem->setFont(font);
     }
 
-    void setCellText(QString text) {
-        m_textItem->setPlainText(text);
-        updateFontSize();
-        centerText();
-    };
-
-
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override {
-        emit controller.onCellPressed();
-        qDebug() << "Mouse pressed on CustomRectItem at:" << row << ".." << column;
-        qDebug() << "isWall = " << isWall;
-        setCellText("2");
+        //emit controller.onCellPressed();
+        FieldController::getInstance().onCellClicked(this);
+        // qDebug() << "Mouse pressed on CustomRectItem at:" << row << ".." << column;
+        // qDebug() << "isWall = " << isWall;
+        //setCellText("2");
 
         //setBrush(QBrush(Qt::black));
     }
 };
 
 #endif // CELL_H
+
