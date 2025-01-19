@@ -32,6 +32,9 @@ public:
 
 
     void setStartCell(Cell* startCell);
+    Cell* getStartCell();
+
+
     bool isSearchStarted();
     bool isSearchEnded();
 

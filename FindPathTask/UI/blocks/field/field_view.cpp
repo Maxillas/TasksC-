@@ -56,6 +56,13 @@ void Field::mouseMoveEvent(QMouseEvent *event)
     if (item) {
         Cell* cell = dynamic_cast<Cell*>(item);
         if (cell && FieldController::getInstance().isSearchStarted() && !cell->isWall) {
+
+            if (cell != FieldController::getInstance().getStartCell()) {
+                FieldController::getInstance().onCellClicked(cell);
+                FieldController::getInstance().setStartCell(cell);
+
+            }
+
             // Выводим информацию о ячейке
             //qDebug() << "Mouse over cell at row:" << cell->row << "column:" << cell->column;
 

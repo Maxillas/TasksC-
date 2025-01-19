@@ -18,6 +18,11 @@ void FieldController::setStartCell(Cell* startCell)
     m_startCell = startCell;
 }
 
+Cell *FieldController::getStartCell()
+{
+    return m_startCell;
+}
+
 bool FieldController::isSearchStarted()
 {
     return m_isSearchStarted;
