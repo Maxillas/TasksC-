@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include "pathfinder.h"
+
 //#include "../UI/blocks/field/cell.h"
 
 class Cell;
@@ -34,12 +36,15 @@ public:
     bool isSearchEnded();
 
     void findPath();
-
     void clean();
+
     void onCellClicked(Cell* clickedCell);
 
 signals:
     void generateField(uint16_t width, uint16_t height);
+    void dontFindPath();
+    void foundPath(QVector<Cell*> path);
+
 
 private:
     explicit FieldController(QObject *parent = nullptr);
@@ -54,6 +59,8 @@ private:
     bool m_isSearchEnded;
 
     QVector<QVector<Cell*>> m_grid;
+
+    PathFinder* m_pathfinder = nullptr;
 
 };
 

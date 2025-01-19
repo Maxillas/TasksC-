@@ -1,5 +1,4 @@
 #include "field_controller.h"
-#include "pathfinder.h"
 #include "../UI/blocks/field/cell.h"
 
 
@@ -8,8 +7,11 @@ FieldController::FieldController(QObject *parent)
     m_height(0),
     m_width(0),
     m_isSearchStarted(false),
-    m_isSearchEnded(false)
-{}
+    m_isSearchEnded(false),
+    m_pathfinder(new PathFinder(this))
+{
+    connect(this, &FieldController::dontFindPath, this, &FieldController::clean );
+}
 
 void FieldController::setStartCell(Cell* startCell)
 {
@@ -28,8 +30,8 @@ bool FieldController::isSearchEnded()
 
 void FieldController::findPath()
 {
-    PathFinder dfs(this);
-    dfs.find(m_grid, m_startCell, m_endCell);
+    //resetGrid();
+    m_pathfinder->find(m_grid, m_startCell, m_endCell);
 }
 
 void FieldController::clean()
@@ -46,7 +48,15 @@ void FieldController::clean()
     m_isSearchStarted = false;
     m_isSearchEnded = false;
 
-    m_grid.clear();
+    for (const auto& row : m_grid) {
+        for (Cell* cell : row) {
+            //qDebug() << "cell: " << cell->row << ", " << cell->column;
+            cell->setCellText("");
+            cell->visited = false;
+            cell->parent = nullptr;
+        }
+    }
+
 }
 
 void FieldController::setWidth(const uint16_t& newWidth)
@@ -77,6 +87,7 @@ uint16_t FieldController::getHeight() const
 
 void FieldController::initiateGrid(uint16_t height, uint16_t width)
 {
+    m_grid.clear();
     m_grid.resize(height, QVector<Cell*>(width));
 }
 
@@ -119,7 +130,6 @@ void FieldController::onCellClicked(Cell* clickedCell)
     if (!isSearchEnded() && m_endCell == nullptr) {
         m_endCell = clickedCell;
         findPath();
-
         clickedCell->setCellText("B");
         m_isSearchEnded = true;
         m_isSearchStarted = false;

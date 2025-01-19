@@ -54,11 +54,12 @@ private:
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override {
         //emit controller.onCellPressed();
         FieldController::getInstance().onCellClicked(this);
-        // qDebug() << "Mouse pressed on CustomRectItem at:" << row << ".." << column;
+        qDebug() << "Mouse pressed on CustomRectItem at:" << row << ".." << column;
         // qDebug() << "isWall = " << isWall;
         //setCellText("2");
 
         //setBrush(QBrush(Qt::black));
+        QGraphicsRectItem::mousePressEvent(event);
     }
 };
 

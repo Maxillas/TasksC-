@@ -1,6 +1,8 @@
 #ifndef FIELD_H
 #define FIELD_H
 
+#include "cell.h"
+
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsRectItem>
@@ -15,6 +17,8 @@ public:
 
 private:
     void generateField(const uint16_t& width, const uint16_t& height);
+    void onDontFindPath();
+    void onFoundPath(QVector<Cell*> path);
 
     QGraphicsScene* m_scene = nullptr;
     QGraphicsRectItem* m_rect = nullptr;

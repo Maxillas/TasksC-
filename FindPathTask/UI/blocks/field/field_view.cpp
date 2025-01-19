@@ -1,9 +1,9 @@
 #include "field_view.h"
 #include "../../../Core/field_controller.h"
-#include "cell.h"
 
 //#include "../../../Core/cell_controller.h"
 #include <QWheelEvent>
+#include <QMessageBox>
 #include <QRandomGenerator>
 
 Field::Field(QGraphicsView *parent):
@@ -18,6 +18,10 @@ Field::Field(QGraphicsView *parent):
 
     connect(&FieldController::getInstance(), &FieldController::generateField,
             this, &Field::generateField);
+    connect(&FieldController::getInstance(), &FieldController::dontFindPath,
+            this, &Field::onDontFindPath);
+    connect(&FieldController::getInstance(), &FieldController::foundPath,
+            this, &Field::onFoundPath);
 }
 
 void Field::wheelEvent(QWheelEvent *event)
@@ -62,7 +66,7 @@ void Field::mouseMoveEvent(QMouseEvent *event)
     }
 
     // Вызываем базовую реализацию, если нужно
-    //QGraphicsView::mouseMoveEvent(event);
+    QGraphicsView::mouseMoveEvent(event);
 }
 
 void Field::generateField(const uint16_t& width, const uint16_t& height)
@@ -105,3 +109,15 @@ void Field::generateField(const uint16_t& width, const uint16_t& height)
     this->centerOn(width * cellSize / 2, height * cellSize / 2);
 }
 
+void Field::onDontFindPath()
+{
+   QMessageBox::warning(this, "Ошибка", "Путь не может быть найден!");
+}
+
+void Field::onFoundPath(QVector<Cell *> path)
+{
+    for (Cell* cell : path) {
+        cell->setCellText("P"); // Помечаем ячейки пути
+        //qDebug() << "Path cell: " << cell->row << ", " << cell->column;
+    }
+}

@@ -53,6 +53,7 @@ SizeSetting::SizeSetting(QWidget *parent)
 void SizeSetting::setWidth()
 {
     if(m_widthEdit->text().isEmpty()) {
+        FieldController::getInstance().setWidth(0);
         return;
     }
     uint width = m_widthEdit->text().toUInt();
@@ -73,6 +74,7 @@ void SizeSetting::setWidth()
 void SizeSetting::setHeight()
 {
     if(m_heightEdit->text().isEmpty()) {
+        FieldController::getInstance().setHeight(0);
         return;
     }
 

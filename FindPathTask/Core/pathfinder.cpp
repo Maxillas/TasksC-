@@ -6,13 +6,40 @@
 
 PathFinder::PathFinder(QObject *parent)
 {
+    this->moveToThread(&m_workerThread);
+    m_workerThread.start();
+}
 
+PathFinder::~PathFinder()
+{
+    m_workerThread.quit();
+    m_workerThread.wait();
 }
 
 void PathFinder::find(const QVector<QVector<Cell *> > &grid, Cell *start, Cell *end)
 {
+    QMetaObject::invokeMethod(this,
+                              "_find",
+                              Qt::QueuedConnection,
+                              Q_ARG(const QVector<QVector<Cell*>> , grid),
+                              Q_ARG(Cell*, start),
+                              Q_ARG(Cell*, end));
+}
+
+void PathFinder::_find(const QVector<QVector<Cell *> > &grid, Cell *start, Cell *end)
+{
+    if (!start || !end || start == end) {
+        emit FieldController::getInstance().dontFindPath();
+        return;
+    }
+
     m_endCell = end;
-    BFS(grid, start->row, start->column);
+    bool result = BFS(grid, start->row, start->column);
+    if(!result) {
+        emit FieldController::getInstance().dontFindPath();
+        return;
+    }
+    qDebug() << "find";
 }
 
 bool PathFinder::isValid(int row, int col, const QVector<QVector<Cell*>>& grid)
@@ -48,32 +75,13 @@ bool PathFinder::BFS(const QVector<QVector<Cell*>>& grid, int startRow, int star
 
         // Если текущая ячейка - это целевая ячейка
         if (currentCell == m_endCell) {
-            qDebug() << "FIND!";
-            QVector<Cell*> path;
-            Cell* current = currentCell;
-
-            while (current != nullptr) {
-                current->setCellText("P");
-                path.push_back(current);
-                current = current->parent;
-            }
-
-            // Разворачиваем путь, чтобы получить его от начала до конца
-            std::reverse(path.begin(), path.end());
-
-            // Визуализация пути
-            for (Cell* cell : path) {
-                cell->setCellText("P"); // Помечаем ячейки пути
-                qDebug() << "Path cell: " << cell->row << ", " << cell->column;
-            }
-
-
+            reconstructPath(currentCell);
             return true; // Завершаем поиск
         }
 
         // Помечаем ячейку как посещенную и выводим информацию
         //currentCell->setCellText("V");
-        qDebug() << "visited = " << currentRow << ", " << currentCol;
+        //qDebug() << "visited = " << currentRow << ", " << currentCol;
 
         // Добавляем все соседние ячейки в очередь
         for (const auto& dir : directions) {
@@ -94,6 +102,21 @@ bool PathFinder::BFS(const QVector<QVector<Cell*>>& grid, int startRow, int star
         }
 
     }
-   // qDebug() << "Path not found!";
     return false;
+}
+
+void PathFinder::reconstructPath(Cell *endCell)
+{
+    QVector<Cell*> path;
+    Cell* current = endCell;
+
+    while (current != nullptr) {
+        path.push_back(current);
+        current = current->parent;
+    }
+
+    // Разворачиваем путь, чтобы получить его от начала до конца
+    std::reverse(path.begin(), path.end());
+
+    emit FieldController::getInstance().foundPath(path);
 }
