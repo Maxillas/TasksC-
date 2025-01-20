@@ -27,7 +27,7 @@ public:
     int column = -1;
     Cell* parent = nullptr;
 
-    void setCellText(QString text) {
+    void setCellText(const QString& text) {
         m_textItem->setPlainText(text);
         updateFontSize();
         centerText();
