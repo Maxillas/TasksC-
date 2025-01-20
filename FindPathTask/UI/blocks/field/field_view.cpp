@@ -49,27 +49,24 @@ void Field::wheelEvent(QWheelEvent *event)
 
 void Field::mouseMoveEvent(QMouseEvent *event)
 {
-    // Выводим координаты мыши
-    //qDebug() << "Mouse moved to:" << event->pos();
-    QGraphicsItem* item = this->itemAt(event->pos());
+    // Получаем все элементы, которые пересекаются с позицией мыши
+    QList<QGraphicsItem*> items = this->items(event->pos());
 
-    if (item) {
-        Cell* cell = dynamic_cast<Cell*>(item);
-        if (cell && FieldController::getInstance().isSearchStarted() && !cell->isWall) {
-
-            if (cell != FieldController::getInstance().getStartCell()) {
-                FieldController::getInstance().onCellClicked(cell);
-                FieldController::getInstance().setStartCell(cell);
-
-            }
-
-            // Выводим информацию о ячейке
-            //qDebug() << "Mouse over cell at row:" << cell->row << "column:" << cell->column;
-
-            //FieldController::getInstance().onCellClicked(cell);
-            // Пример: изменяем цвет ячейки при наведении
-            //cell->setBrush(QBrush(Qt::yellow));
+    // Ищем первую ячейку в списке
+    Cell* newCell = nullptr;
+    for (QGraphicsItem* item : items) {
+        newCell = dynamic_cast<Cell*>(item);
+        if (newCell) {
+            break; // Нашли ячейку
         }
+    }
+
+    // Проверяем, что newCell не nullptr и отличается от текущей ячейки
+    if (newCell && newCell != m_currentCell) {
+        m_currentCell = newCell; // Обновляем текущую ячейку
+        FieldController::getInstance().onMouseMove(m_currentCell);
+    } else if (!newCell) {
+        m_currentCell = nullptr;
     }
 
     // Вызываем базовую реализацию, если нужно
@@ -118,13 +115,40 @@ void Field::generateField(const uint16_t& width, const uint16_t& height)
 
 void Field::onDontFindPath()
 {
-   QMessageBox::warning(this, "Ошибка", "Путь не может быть найден!");
+   QMessageBox::warning(nullptr, "Ошибка", "Путь не может быть найден!");
 }
 
 void Field::onFoundPath(QVector<Cell *> path)
 {
+    Cell* startCell = FieldController::getInstance().getStartCell();
     for (Cell* cell : path) {
-        cell->setCellText("P"); // Помечаем ячейки пути
-        //qDebug() << "Path cell: " << cell->row << ", " << cell->column;
+        if(cell == startCell) {
+            cell->setCellText("A");
+            continue;
+        }
+
+        // if(cell == *(path.end() - 1)) {
+        //     return;
+        // }
+        // if (path[path.indexOf(cell) + 1] == *path.end())  {
+        //     cell->setCellText("B");
+        // }
+
+        //Cell* prevCell = cell->parent;
+        //cell->setTargetCell(prevCell);
+        cell->setTargetCell(cell->parent);
+
+        // if (!prevCell) continue;
+        // QPointF start(24,24);//= prevCell->scenePos()+ QPointF(prevCell->boundingRect().width() / 2, prevCell->boundingRect().height() / 2);
+        // QPointF end(50, 50);//cell->scenePos() + QPointF(cell->boundingRect().width() / 2, cell->boundingRect().height() / 2);
+
+        // qDebug() << "Start cell pos:" << prevCell->pos() << "Center:" << start;
+        // qDebug() << "End cell pos:" << cell->pos() << "Center:" << end;
+
+        // QGraphicsLineItem* line = new QGraphicsLineItem(QLineF(start, end));
+        // line->setPen(QPen(Qt::red, 4)); // Толщина и цвет линии
+        // m_scene->addItem(line);
+
+        //cell->setCellText("P"); // Помечаем ячейки пути
     }
 }

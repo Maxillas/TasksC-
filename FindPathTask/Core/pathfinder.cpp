@@ -39,7 +39,6 @@ void PathFinder::_find(const QVector<QVector<Cell *> > &grid, Cell *start, Cell 
         emit FieldController::getInstance().dontFindPath();
         return;
     }
-    qDebug() << "find";
 }
 
 bool PathFinder::isValid(int row, int col, const QVector<QVector<Cell*>>& grid)
@@ -117,6 +116,5 @@ void PathFinder::reconstructPath(Cell *endCell)
 
     // Разворачиваем путь, чтобы получить его от начала до конца
     std::reverse(path.begin(), path.end());
-
     emit FieldController::getInstance().foundPath(path);
 }

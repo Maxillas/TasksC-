@@ -25,5 +25,7 @@ private:
     void wheelEvent(QWheelEvent *event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
 
+    Cell* m_currentCell = nullptr;
+
 };
 #endif // FIELD_H
