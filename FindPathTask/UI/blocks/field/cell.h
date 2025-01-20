@@ -8,6 +8,7 @@
 #include <QFont>
 #include <QPen>
 #include <QPainter>
+#include <QGraphicsScene>
 #include "../../../Core/field_controller.h"
 
 class Cell : public QGraphicsRectItem
@@ -32,70 +33,92 @@ public:
         centerText();
     };
 
-    // Устанавливаем целевую ячейку для рисования линии
-    void setTargetCell(Cell* target) {
-        m_targetCell = target;
-        update(); // Обновляем отрисовку
-    }
-    void clearTargetCell() {
-        m_targetCell = nullptr; // Удаляем ссылку на целевую ячейку
-        update(); // Перерисовываем ячейку
-    }
+    // // Устанавливаем целевую ячейку для рисования линии
+    // void setTargetCell(Cell* target) {
+    //     m_targetCell = target;
+    //     update(); // Обновляем отрисовку
+    // }
+    // void clearTargetCell() {
+    //     m_targetCell = nullptr; // Удаляем ссылку на целевую ячейку
+    //     update(); // Перерисовываем ячейку
+    // }
 
 protected:
     // Переопределяем метод paint для рисования линии
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override {
-        // Вызываем стандартную отрисовку QGraphicsRectItem
-        QGraphicsRectItem::paint(painter, option, widget);
+    // void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override {
+    //     // Вызываем стандартную отрисовку QGraphicsRectItem
+    //     QGraphicsRectItem::paint(painter, option, widget);
 
-        // Если целевая ячейка задана, рисуем линию
-        if (m_targetCell) {
-            // // Получаем текущий прямоугольник ячейки
-            // QRectF cellRect = rect();
-            // // Вычисляем относительные размеры
-            // qreal lineWidth = cellRect.width() * 0.05; // Толщина линии = 10% от ширины ячейки
+    //     // Если целевая ячейка задана, рисуем линию
+    //     if (m_targetCell) {
+    //         //clearLines(scene());
+    //         // Получаем текущий прямоугольник ячейки
+    //         QRectF cellRect = rect();
+    //         // Вычисляем относительные размеры
+    //         qreal lineWidth = qMax(1.0, cellRect.width() * 0.05); // Толщина линии = 5% от ширины ячейки
+    //         // Координаты центра текущей ячейки
+    //         QPointF start = this->mapToParent(cellRect.center());//cellRect.center();
+    //         // Координаты центра целевой ячейки относительно текущей
+    //         QPointF end = m_targetCell->mapToParent(m_targetCell->rect().center());
 
-            // // Координаты центра текущей ячейки
-            // QPointF start = rect().center();
-            // // Координаты центра целевой ячейки относительно текущей
-            // QPointF end = mapFromItem(m_targetCell, m_targetCell->rect().center());
 
-            // painter->setPen(QPen(Qt::red, lineWidth)); // Красная линия толщиной 2 пикселя
+    //         // // Получаем текущий прямоугольник ячейки
+    //         // QRectF cellRect = rect();
+    //         // // Вычисляем относительные размеры
+    //         // qreal lineWidth = cellRect.width() * 0.05; // Толщина линии = 10% от ширины ячейки
 
-            // //qDebug() << "startX = " << start.x() << "endX = " << end.x();
-            // //qDebug() << "startY = " << start.y() << "endY = " << end.y();
-            // if(start.x() < end.x()) {
-            //     qDebug() << "THIS";
-            //     //end.setX(end.x() / 2);
-            //     painter->drawLine(end, start);
-            // } else {
-            //     painter->drawLine(start, end);
-            // }
-            // // Рисуем линию
+    //         // // Координаты центра текущей ячейки
+    //         // QPointF start = rect().center();
+    //         // // Координаты центра целевой ячейки относительно текущей
+    //         // QPointF end = mapFromItem(m_targetCell, m_targetCell->rect().center());
 
-            // Получаем текущий прямоугольник ячейки
-            QRectF cellRect = rect();
-            // Вычисляем относительные размеры
-            qreal lineWidth = cellRect.width() * 0.05; // Толщина линии = 5% от ширины ячейки
+    //         // painter->setPen(QPen(Qt::red, lineWidth)); // Красная линия толщиной 2 пикселя
 
-            // Координаты центра текущей ячейки
-            QPointF start = cellRect.center();
+    //         // //qDebug() << "startX = " << start.x() << "endX = " << end.x();
+    //         // //qDebug() << "startY = " << start.y() << "endY = " << end.y();
+    //         // if(start.x() < end.x()) {
+    //         //     qDebug() << "THIS";
+    //         //     //end.setX(end.x() / 2);
+    //         //     painter->drawLine(end, start);
+    //         // } else {
+    //         //     painter->drawLine(start, end);
+    //         // }
+    //         // // Рисуем линию
 
-            // Координаты центра целевой ячейки относительно текущей
-            QPointF end = mapFromItem(m_targetCell, m_targetCell->rect().center());
 
-            // Устанавливаем цвет и толщину линии
-            painter->setPen(QPen(Qt::red, lineWidth));
 
-            // Отладочный вывод координат
-            qDebug() << "Start: " << start;
-            qDebug() << "End: " << end;
+    // //m_targetCell->rect().center(); //mapFromItem(this, m_targetCell->rect().center());
 
-            // Рисуем линию от центра текущей ячейки к центру целевой ячейки
-            painter->drawLine(start, end);
+    //         // qDebug() << "start = " << start;
+    //         // qDebug() << "end = " << end;
+    //         // qDebug() << "_________________;";
+    //         // Устанавливаем цвет и толщину линии
 
-        }
-    }
+    //         // if(start.x() < end.x()) {
+
+    //         // }
+
+    //         // // Отладочный вывод координат
+    //         // // qDebug() << "target: " << m_targetCell->row << ", " << m_targetCell->column;
+    //         // // qDebug() << "this: " << this->row << ", " << this->column;
+
+    //         // // Рисуем линию от центра текущей ячейки к центру целевой ячейки
+    //         QGraphicsLineItem* lineItem = new QGraphicsLineItem(start.x(), start.y(), end.x(), end.y());
+
+    //         // Устанавливаем стиль линии
+    //         lineItem->setPen(QPen(Qt::red, 2));
+
+    //         // Устанавливаем высокое значение ZValue
+    //         lineItem->setZValue(1000);
+
+    //         // Добавляем линию на сцену
+    //         scene()->addItem(lineItem);
+    //         //m_lines.append(lineItem);
+    //         // painter->setPen(QPen(Qt::red, lineWidth));
+    //         // painter->drawLine(start, end);
+
+    //     }
+    // }
 
 
     //CellController controller; //объект для использования сигналов
@@ -103,7 +126,7 @@ protected:
 private:
 
     QGraphicsTextItem* m_textItem;
-    Cell* m_targetCell = nullptr; // Целевая ячейка для рисования линии
+    //Cell* m_targetCell = nullptr; // Целевая ячейка для рисования линии
 
 
     void centerText() {

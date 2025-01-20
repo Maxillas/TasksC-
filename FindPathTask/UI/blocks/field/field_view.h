@@ -19,6 +19,8 @@ private:
     void generateField(const uint16_t& width, const uint16_t& height);
     void onDontFindPath();
     void onFoundPath(QVector<Cell*> path);
+    void clearLines();
+
 
     QGraphicsScene* m_scene = nullptr;
     QGraphicsRectItem* m_rect = nullptr;
@@ -26,6 +28,7 @@ private:
     void mouseMoveEvent(QMouseEvent* event) override;
 
     Cell* m_currentCell = nullptr;
+    QList<QGraphicsLineItem*> m_lines;
 
 };
 #endif // FIELD_H

@@ -62,9 +62,9 @@ void FieldController::cleanGrid()
             cell->setCellText("");
             cell->visited = false;
             cell->parent = nullptr;
-            cell->clearTargetCell();
         }
     }
+    emit cleanField();
 }
 
 void FieldController::setWidth(const uint16_t& newWidth)

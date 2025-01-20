@@ -22,6 +22,8 @@ Field::Field(QGraphicsView *parent):
             this, &Field::onDontFindPath);
     connect(&FieldController::getInstance(), &FieldController::foundPath,
             this, &Field::onFoundPath);
+    connect(&FieldController::getInstance(), &FieldController::cleanField,
+            this, &Field::clearLines);
 }
 
 void Field::wheelEvent(QWheelEvent *event)
@@ -120,6 +122,7 @@ void Field::onDontFindPath()
 
 void Field::onFoundPath(QVector<Cell *> path)
 {
+    clearLines();
     Cell* startCell = FieldController::getInstance().getStartCell();
     for (Cell* cell : path) {
         if(cell == startCell) {
@@ -127,28 +130,31 @@ void Field::onFoundPath(QVector<Cell *> path)
             continue;
         }
 
-        // if(cell == *(path.end() - 1)) {
-        //     return;
-        // }
-        // if (path[path.indexOf(cell) + 1] == *path.end())  {
-        //     cell->setCellText("B");
-        // }
+        if (!cell || !cell->parent || !startCell || !m_scene) {
+            return;
+        }
 
-        //Cell* prevCell = cell->parent;
-        //cell->setTargetCell(prevCell);
-        cell->setTargetCell(cell->parent);
+        QPointF start = cell->mapToScene(cell->rect().center());
+        QPointF end = cell->parent->mapToScene(cell->parent->rect().center());
 
-        // if (!prevCell) continue;
-        // QPointF start(24,24);//= prevCell->scenePos()+ QPointF(prevCell->boundingRect().width() / 2, prevCell->boundingRect().height() / 2);
-        // QPointF end(50, 50);//cell->scenePos() + QPointF(cell->boundingRect().width() / 2, cell->boundingRect().height() / 2);
+        QGraphicsLineItem* lineItem = new QGraphicsLineItem(start.x(), start.y(), end.x(), end.y());
+        qreal lineWidth = qMax(1.0, cell->rect().width() * 0.05);
+        lineItem->setPen(QPen(Qt::red, lineWidth));
+        lineItem->setZValue(1000);
 
-        // qDebug() << "Start cell pos:" << prevCell->pos() << "Center:" << start;
-        // qDebug() << "End cell pos:" << cell->pos() << "Center:" << end;
+        // Добавляем линию на сцену и в контейнер
+        m_scene->addItem(lineItem);
+        m_lines.append(lineItem);
 
-        // QGraphicsLineItem* line = new QGraphicsLineItem(QLineF(start, end));
-        // line->setPen(QPen(Qt::red, 4)); // Толщина и цвет линии
-        // m_scene->addItem(line);
-
-        //cell->setCellText("P"); // Помечаем ячейки пути
     }
+}
+
+void Field::clearLines()
+{
+    // Удаляем все линии из сцены
+    for (auto* line : m_lines) {
+        m_scene->removeItem(line);
+        delete line; // Освобождаем память
+    }
+    m_lines.clear(); // Очищаем контейнер
 }
