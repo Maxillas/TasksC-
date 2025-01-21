@@ -16,8 +16,6 @@ private:
     QVBoxLayout* m_layout = nullptr;
     FieldWrapper* m_fieldWrapper = nullptr;
     SizeSetting* m_sizeSetting = nullptr;
-
-signals:
 };
 
 #endif // LEFT_SIDE_H

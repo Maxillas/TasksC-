@@ -24,7 +24,6 @@ private:
     QLineEdit* m_heightEdit = nullptr;
     QLabel* m_widthLabel = nullptr;
     QLabel* m_heightLabel = nullptr;
-signals:
 };
 
 #endif // SIZE_SETTING_H

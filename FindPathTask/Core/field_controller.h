@@ -5,7 +5,6 @@
 
 #include "pathfinder.h"
 
-//#include "../UI/blocks/field/cell.h"
 
 class Cell;
 
@@ -26,14 +25,14 @@ public:
     void setHeight(const uint16_t& newHeight);
     uint16_t getHeight() const;
 
+    void setPath(QVector<Cell*> newPath);
+
     void initiateGrid(uint16_t height, uint16_t width);
     void addItemInGrid(int row, int col, Cell* cell);
     void setWall(int row, int col, bool isWall);
 
-
     void setStartCell(Cell* startCell);
     Cell* getStartCell();
-
 
     bool isSearchStarted();
     bool isSearchEnded();
@@ -43,7 +42,6 @@ public:
     void cleanGrid();
 
     void onCellClicked(Cell* clickedCell);
-
     void onMouseMove(Cell* selectedCell);
 
 signals:
@@ -51,7 +49,7 @@ signals:
     void dontFindPath();
     void foundPath(QVector<Cell*> path);
     void cleanField();
-
+    void searchCompleted(Cell* endCell);
 
 private:
     explicit FieldController(QObject *parent = nullptr);
@@ -68,7 +66,6 @@ private:
     QVector<QVector<Cell*>> m_grid;
 
     PathFinder* m_pathfinder = nullptr;
-
 };
 
 #endif // FIELD_CONTROLLER_H

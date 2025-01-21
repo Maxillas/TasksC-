@@ -6,6 +6,7 @@
 
 #include "field/field_view.h"
 
+
 class FieldWrapper : public QWidget
 {
     Q_OBJECT
@@ -15,7 +16,6 @@ public:
 private:
     QVBoxLayout* m_layout = nullptr;
     Field* m_field = nullptr;
-signals:
 };
 
 #endif // FIELD_WRAPPER_H

@@ -36,12 +36,9 @@ set(SOURCES
 
     Core/pathfinder.cpp
     Core/field_controller.cpp
-
 )
 
-add_executable(FindPathTask ${SOURCES}
-    Core/cell_controller.h
-)
+add_executable(FindPathTask ${SOURCES})
 
 target_link_libraries(FindPathTask PRIVATE Qt6::Widgets)
 

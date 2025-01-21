@@ -10,6 +10,7 @@ FieldController::FieldController(QObject *parent)
     m_isSearchEnded(false),
     m_pathfinder(new PathFinder(this))
 {
+    initiateGrid(0,0); //инициализируем m_grid пустым вектором
     connect(this, &FieldController::dontFindPath, this, &FieldController::clean );
 }
 
@@ -35,7 +36,6 @@ bool FieldController::isSearchEnded()
 
 void FieldController::findPath()
 {
-    //resetGrid();
     m_pathfinder->find(m_grid, m_startCell, m_endCell);
 }
 
@@ -116,116 +116,35 @@ void FieldController::setWall(int row, int col, bool isWall)
 
 void FieldController::onCellClicked(Cell* clickedCell)
 {
-    // Если ячейка является стеной, игнорируем клик
     if (clickedCell->isWall) {
         return;
     }
 
-    // Если поиск не начат, устанавливаем начальную ячейку
     if (!isSearchStarted()) {
         cleanGrid();
         m_startCell = clickedCell;
         clickedCell->setCellText("A");
         m_isSearchStarted = true;
+        m_isSearchEnded = false;
         return;
     }
 
     clickedCell->setCellText("B");
     m_isSearchEnded = true;
     m_isSearchStarted = false;
-
-    // // Если поиск завершен, очищаем состояние
-    // if (isSearchEnded()) {
-    //     clean();
-    // }
-
-    // // Если поиск не начат, устанавливаем начальную ячейку
-    // if (!isSearchStarted()) {
-    //     m_startCell = clickedCell;
-    //     clickedCell->setCellText("A");
-    //     m_isSearchStarted = true;
-    //     return;
-    // }
-
-    // // Если поиск начат, но не завершен, и конечная ячейка еще не установлена
-    // if (!isSearchEnded() && m_endCell == nullptr) {
-    //     m_endCell = clickedCell;
-    //     findPath();
-    //     clickedCell->setCellText("B");
-    //     m_isSearchEnded = true;
-    //     m_isSearchStarted = false;
-    //     return;
-    // }
-
-    // // Если пользователь кликает на уже установленную начальную ячейку
-    // if (clickedCell == m_startCell) {
-    //     m_startCell->setCellText("");
-    //     m_startCell = nullptr;
-    //     return;
-    // }
-
-    // // Если пользователь кликает на уже установленную конечную ячейку
-    // if (clickedCell == m_endCell) {
-    //     m_endCell->setCellText("");
-    //     m_endCell = nullptr;
-    //     return;
-    // }
+    emit searchCompleted(m_endCell);
 }
 
 void FieldController::onMouseMove(Cell *selectedCell)
 {
-    // Если ячейка является стеной, игнорируем клик
-    if (selectedCell->isWall) {
+    if (selectedCell->isWall || !isSearchStarted() || selectedCell == m_startCell) {
         return;
     }
 
-    if (!isSearchStarted()) {
-        return;
-    }
-    // Если наведенная ячейка уже является начальной, ничего не делаем
-    if (selectedCell == m_startCell) {
-        return;
-    }
-
-    // if (selectedCell == m_endCell) {
-    //     return;
-    // }
-
-    // Если поиск начат
     if (isSearchStarted()) {
         cleanGrid();
         m_endCell = selectedCell;
         findPath();
-        //selectedCell->setCellText("B");
-        //m_startCell = selectedCell;
-        //m_isSearchEnded = true;
-        //m_isSearchStarted = false;
         return;
     }
-
-    // // Если поиск начат, но не завершен, и конечная ячейка еще не установлена
-    // if (!isSearchEnded() && m_endCell == nullptr) {
-    //     m_endCell = selectedCell;
-    //     findPath();
-    //     selectedCell->setCellText("B");
-    //     m_isSearchEnded = true;
-    //     m_isSearchStarted = false;
-
-    //     m_startCell = selectedCell;
-    //     return;
-    // }
-
-    // // Если поиск уже завершен, обновляем конечную ячейку и пересчитываем путь
-    // if (isSearchEnded()) {
-    //     m_endCell = selectedCell;
-    //     findPath();
-    //     selectedCell->setCellText("B");
-    // }
-
-    //m_endCell = selectedCell;
-    //selectedCell->setCellText("A");
-
-   // findPath();
-
-
 }

@@ -10,5 +10,4 @@ FieldWrapper::FieldWrapper(QWidget *parent)
 
     this->setLayout(m_layout);
     this->setStyleSheet("background-color: white;""border: none");
-    //this->setFixedSize(725, 568);
 }

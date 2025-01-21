@@ -24,7 +24,6 @@ RightSide::RightSide(QWidget *parent)
         "QPushButton:pressed {"
         "   background-color: #2c81ba;"
         "}"
-
     );
 
     m_layout->addWidget(m_generateBtn);
