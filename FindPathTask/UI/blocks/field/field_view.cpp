@@ -70,7 +70,7 @@ void Field::mouseMoveEvent(QMouseEvent *event)
     QGraphicsView::mouseMoveEvent(event);
 }
 
-void Field::generateField(const uint16_t& width, const uint16_t& height)
+void Field::generateField(uint16_t width, uint16_t height)
 {
     FieldController::getInstance().clean();
     m_scene->clear();
@@ -114,7 +114,7 @@ void Field::onDontFindPath()
    QMessageBox::warning(nullptr, "Ошибка", "Путь не может быть найден!");
 }
 
-void Field::onFoundPath(QVector<Cell *> path)
+void Field::onFoundPath(const QVector<Cell *>& path)
 {
     clearLines();
     Cell* startCell = FieldController::getInstance().getStartCell();

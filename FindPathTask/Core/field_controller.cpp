@@ -67,7 +67,7 @@ void FieldController::cleanGrid()
     emit cleanField();
 }
 
-void FieldController::setWidth(const uint16_t& newWidth)
+void FieldController::setWidth(uint16_t newWidth)
 {
     if(m_width == newWidth) {
         return;
@@ -80,7 +80,7 @@ uint16_t FieldController::getWidth() const
     return m_width;
 }
 
-void FieldController::setHeight(const uint16_t& newHeight)
+void FieldController::setHeight(uint16_t newHeight)
 {
     if(m_height == newHeight) {
         return;

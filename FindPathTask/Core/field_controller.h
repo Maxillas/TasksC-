@@ -19,13 +19,11 @@ public:
         static FieldController instance;
         return instance;
     }
-    void setWidth(const uint16_t& newWidth);
+    void setWidth(uint16_t newWidth);
     uint16_t getWidth() const;
 
-    void setHeight(const uint16_t& newHeight);
+    void setHeight(uint16_t newHeight);
     uint16_t getHeight() const;
-
-    void setPath(QVector<Cell*> newPath);
 
     void initiateGrid(uint16_t height, uint16_t width);
     void addItemInGrid(int row, int col, Cell* cell);
@@ -47,7 +45,7 @@ public:
 signals:
     void generateField(uint16_t width, uint16_t height);
     void dontFindPath();
-    void foundPath(QVector<Cell*> path);
+    void foundPath(const QVector<Cell*>& path);
     void cleanField();
     void searchCompleted(Cell* endCell);
 

@@ -25,9 +25,9 @@ private:
     void wheelEvent(QWheelEvent *event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
 
-    void generateField(const uint16_t& width, const uint16_t& height);
+    void generateField(uint16_t width, uint16_t height);
     void onDontFindPath();
-    void onFoundPath(QVector<Cell*> path);
+    void onFoundPath(const QVector<Cell*>& path);
     void clearLines();
     void onSearchCompleted(Cell* endCell);
     void drawArrows(Cell* сell, ArrowDirection direction);
